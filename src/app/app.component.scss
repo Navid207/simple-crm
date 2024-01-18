@@ -2,3 +2,16 @@
 mat-drawer-container {
     min-height: 100vh;
 }
+
+mat-drawer {
+    min-width: 320px;
+}
+
+app-navbar{
+    height: 64px;
+}
+
+main{
+    padding-top: 32px;
+    padding-left: 38px;
+}

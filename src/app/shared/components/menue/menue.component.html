@@ -1,0 +1,11 @@
+<div>
+    Placeholder Logo
+</div>
+<ul>
+    @for (category of categorys; track $index) {
+    <li routerLink="{{ category.link }}">
+        <mat-icon>{{ category.icon }}</mat-icon>
+        {{ category.name }}
+    </li>
+    }
+</ul>

@@ -17,7 +17,7 @@ import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  
-  @Input () slidBar!: MatDrawer;
-  
+
+  @Input() slidBar!: MatDrawer;
+
 }

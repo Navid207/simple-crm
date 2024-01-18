@@ -1,0 +1,29 @@
+@import './../../../../styles.scss';
+
+div {
+    @include dFlex ($jc: flex-start);
+    font-size: var(--mat-toolbar-title-text-size);
+    line-height: var(--mat-toolbar-title-text-line-height);
+    font-weight: var(--mat-toolbar-title-text-weight);
+    letter-spacing: var(--mat-toolbar-title-text-tracking);
+    padding-inline: 30px;
+    height: 64px;
+    border-bottom: 3px solid $lgBlack;
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+
+    >li{
+        @include dFlex ($jc: flex-start, $gap: 8px);
+        padding-inline: 30px;
+        height: 42px;
+
+        &:hover{
+            cursor: pointer;
+            background-color: $lgBlack;
+        }
+    }
+}
