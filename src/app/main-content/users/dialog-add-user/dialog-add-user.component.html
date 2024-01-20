@@ -1,0 +1,72 @@
+<h1 mat-dialog-title>Add user</h1>
+<div class="form-input">
+  <mat-form-field appearance="outline">
+    <mat-label>Fist Name</mat-label>
+    <input matInput placeholder="Fist Name" [formControl]="firstName" required>
+    @if (firstName.invalid) {
+    <mat-error>{{getErrorMessage(firstName,'Name')}}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Last Name</mat-label>
+    <input matInput placeholder="Last Name" [formControl]="lastName" required>
+    @if (lastName.invalid) {
+    <mat-error>{{getErrorMessage(lastName,'Name')}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+<div class="form-input">
+  <mat-form-field appearance="outline">
+    <mat-label>Street + House No.</mat-label>
+    <input matInput placeholder="Examplesteet 1" [formControl]="street" required>
+    @if (street.invalid) {
+    <mat-error>{{getErrorMessage(street,'Steer')}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+<div class="form-input">
+  <mat-form-field appearance="outline">
+    <mat-label>Zip code</mat-label>
+    <input matInput placeholder="24106" [formControl]="zipCode" required>
+    @if (firstName.invalid) {
+    <mat-error>{{getErrorMessage(zipCode,'Zip Code')}}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>City</mat-label>
+    <input matInput placeholder="Kiel" [formControl]="city" required>
+    @if (lastName.invalid) {
+    <mat-error>{{getErrorMessage(city,'City')}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+<div class="form-input">
+  <mat-form-field appearance="outline">
+    <mat-label>Birthday</mat-label>
+    <input matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+<div class="form-input">
+  <mat-form-field appearance="outline">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="name@example.com" [formControl]="email" required>
+    @if (email.invalid) {
+    <mat-error>{{getErrorMessage(email,'Mail')}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+<div class="form-input">
+  <mat-form-field appearance="outline">
+    <mat-label>Phone</mat-label>
+    <input matInput placeholder="0123456789" [formControl]="phone" required>
+    @if (email.invalid) {
+    <mat-error>{{getErrorMessage(phone,'Number')}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+<div class="form-btn" mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">close</button>
+  <button mat-button (click)=" setUserData()" cdkFocusInitial>add</button> <!-- [mat-dialog-close]="data" -->
+</div>
