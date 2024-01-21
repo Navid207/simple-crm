@@ -15,6 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { FirebaseService } from '../../../shared/services/firebase.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 
 @Component({
@@ -31,12 +32,15 @@ import { FirebaseService } from '../../../shared/services/firebase.service';
     ReactiveFormsModule,
     MatDialogClose,
     MatDatepickerModule,
-    MatFormFieldModule
+    MatFormFieldModule,
+    MatProgressBarModule
   ],
   templateUrl: './dialog-add-user.component.html',
   styleUrl: './dialog-add-user.component.scss'
 })
 export class DialogAddUserComponent {
+  loading: boolean = false;
+  allowAddBtn: boolean = false;
 
   constructor(
     public dialogRef: MatDialogRef<DialogAddUserComponent>,
@@ -44,7 +48,6 @@ export class DialogAddUserComponent {
     private userServices: FirebaseService
   ) { }
 
-  @ViewChild('addUser') addUserBtn!: MatButton;
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -99,31 +102,49 @@ export class DialogAddUserComponent {
   }
 
 
+  async addUser() {
+    this.loading = true;
+    this.allowAddBtn = false;
+    this.setUserData();
+    await this.userServices.addNewUser(this.data);
+    this.resetInputs();
+    this.dialogRef.close();
+  }
+
+
   setUserData() {
     this.data.firstName = this.getFormData(this.formData.firstName);
     this.data.lastName = this.getFormData(this.formData.lastName);
     this.data.street = this.getFormData(this.formData.street);
     this.data.zipCode = parseInt(this.getFormData(this.formData.zipCode));
     this.data.city = this.getFormData(this.formData.city);
-    this.data.birthDate = this.getTimeFromDate(this.getFormData(this.formData.birthDate));
     this.data.mail = this.getFormData(this.formData.mail);
+    this.data.birthDate = this.getTimeFromDate(this.getFormData(this.formData.birthDate));
     this.data.phone = parseInt(this.getFormData(this.formData.phone));
-    console.log(this.data, JSON.stringify(this.data));
-    debugger
-    // this.userServices.addNewUser(JSON.stringify(this.data));
-    this.userServices.addNewUser(this.data);
   }
 
 
-  getTimeFromDate(date: Date) :number | undefined{
+  resetInputs() {
+    this.formData.firstName.reset();
+    this.formData.lastName.reset();
+    this.formData.street.reset();
+    this.formData.zipCode.reset();
+    this.formData.city.reset();
+    this.formData.birthDate.reset();
+    this.formData.mail.reset();
+    this.formData.phone.reset();
+  }
+
+
+  getTimeFromDate(date: Date): number | undefined {
     if (date) return date.getTime();
-    else return undefined
+    else return NaN
   }
 
 
   getFormData(FormData: FormControl) {
     if (FormData.status == 'VALID' && FormData.value) return FormData.value;
-    else return null
+    else return NaN
   }
 
 
@@ -134,21 +155,6 @@ export class DialogAddUserComponent {
     if (!this.formData.zipCode.valid) return
     if (!this.formData.city.valid) return
     if (!this.formData.mail.valid) return
-    else this.addUserBtn.disabled = false;
+    else this.allowAddBtn = true;
   }
-
-
-  // UserDatatoJSON():JSON {
-  //   return {
-  //     id: this.data.id,
-  //     firstName: this.data.firstName,
-  //     lastName: this.data.lastName,
-  //     street: this.data.street,
-  //     zipCode: this.data.zipCode,
-  //     city: this.data.city,
-  //     mail: this.data.mail,
-  //     phone: this.data.phone,
-  //     birthDate: this.data.birthDate,
-  //   }
-  // }
 }

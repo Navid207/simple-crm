@@ -2,14 +2,16 @@
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Fist Name</mat-label>
-    <input matInput placeholder="Fist Name" [formControl]="formData.firstName" (ngModelChange)="enableAddUser()">
+    <input [disabled]="loading" matInput placeholder="Fist Name" [formControl]="formData.firstName"
+      (ngModelChange)="enableAddUser()">
     @if (formData.firstName.invalid) {
     <mat-error>{{getErrorMessage(formData.firstName,'Name')}}</mat-error>
     }
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Last Name</mat-label>
-    <input matInput placeholder="Last Name" [formControl]="formData.lastName" (ngModelChange)="enableAddUser()">
+    <input [disabled]="loading" matInput placeholder="Last Name" [formControl]="formData.lastName"
+      (ngModelChange)="enableAddUser()">
     @if (formData.lastName.invalid) {
     <mat-error>{{getErrorMessage(formData.lastName,'Name')}}</mat-error>
     }
@@ -18,7 +20,8 @@
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Street + House No.</mat-label>
-    <input matInput placeholder="Examplesteet 1" [formControl]="formData.street" (ngModelChange)="enableAddUser()">
+    <input [disabled]="loading" matInput placeholder="Examplesteet 1" [formControl]="formData.street"
+      (ngModelChange)="enableAddUser()">
     @if (formData.street.invalid) {
     <mat-error>{{getErrorMessage(formData.street,'Steer')}}</mat-error>
     }
@@ -27,7 +30,8 @@
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Zip code</mat-label>
-    <input matInput placeholder="24106" [formControl]="formData.zipCode" (ngModelChange)="enableAddUser()">
+    <input [disabled]="loading" matInput placeholder="24106" [formControl]="formData.zipCode"
+      (ngModelChange)="enableAddUser()">
     @if (formData.firstName.invalid) {
     <mat-error>{{getErrorMessage(formData.zipCode,'Zip Code')}}</mat-error>
     }
@@ -51,7 +55,8 @@
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput placeholder="name@example.com" [formControl]="formData.mail" (ngModelChange)="enableAddUser()">
+    <input [disabled]="loading" matInput placeholder="name@example.com" [formControl]="formData.mail"
+      (ngModelChange)="enableAddUser()">
     @if (formData.mail.invalid) {
     <mat-error>{{getErrorMessage(formData.mail,'Mail')}}</mat-error>
     }
@@ -60,14 +65,16 @@
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Phone</mat-label>
-    <input matInput placeholder="0123456789" [formControl]="formData.phone">
+    <input [disabled]="loading" matInput placeholder="0123456789" [formControl]="formData.phone">
     @if (formData.phone.invalid) {
     <mat-error>{{getErrorMessage(formData.phone,'Number')}}</mat-error>
     }
   </mat-form-field>
 </div>
 <div class="form-btn" mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">close</button>
-  <button #addUser disabled mat-raised-button color="primary" (click)=" setUserData()">add</button> 
-  <!-- [mat-dialog-close]="data" -->
+  <button mat-button [disabled]="loading" (click)="onNoClick()">close</button>
+  <button [disabled]="!allowAddBtn" mat-raised-button color="primary" (click)="addUser()">add</button>
 </div>
+@if (loading) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}
