@@ -2,48 +2,48 @@
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Fist Name</mat-label>
-    <input matInput placeholder="Fist Name" [formControl]="firstName" required>
-    @if (firstName.invalid) {
-    <mat-error>{{getErrorMessage(firstName,'Name')}}</mat-error>
+    <input matInput placeholder="Fist Name" [formControl]="formData.firstName" (ngModelChange)="enableAddUser()">
+    @if (formData.firstName.invalid) {
+    <mat-error>{{getErrorMessage(formData.firstName,'Name')}}</mat-error>
     }
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>Last Name</mat-label>
-    <input matInput placeholder="Last Name" [formControl]="lastName" required>
-    @if (lastName.invalid) {
-    <mat-error>{{getErrorMessage(lastName,'Name')}}</mat-error>
+    <input matInput placeholder="Last Name" [formControl]="formData.lastName" (ngModelChange)="enableAddUser()">
+    @if (formData.lastName.invalid) {
+    <mat-error>{{getErrorMessage(formData.lastName,'Name')}}</mat-error>
     }
   </mat-form-field>
 </div>
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Street + House No.</mat-label>
-    <input matInput placeholder="Examplesteet 1" [formControl]="street" required>
-    @if (street.invalid) {
-    <mat-error>{{getErrorMessage(street,'Steer')}}</mat-error>
+    <input matInput placeholder="Examplesteet 1" [formControl]="formData.street" (ngModelChange)="enableAddUser()">
+    @if (formData.street.invalid) {
+    <mat-error>{{getErrorMessage(formData.street,'Steer')}}</mat-error>
     }
   </mat-form-field>
 </div>
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Zip code</mat-label>
-    <input matInput placeholder="24106" [formControl]="zipCode" required>
-    @if (firstName.invalid) {
-    <mat-error>{{getErrorMessage(zipCode,'Zip Code')}}</mat-error>
+    <input matInput placeholder="24106" [formControl]="formData.zipCode" (ngModelChange)="enableAddUser()">
+    @if (formData.firstName.invalid) {
+    <mat-error>{{getErrorMessage(formData.zipCode,'Zip Code')}}</mat-error>
     }
   </mat-form-field>
   <mat-form-field appearance="outline">
     <mat-label>City</mat-label>
-    <input matInput placeholder="Kiel" [formControl]="city" required>
-    @if (lastName.invalid) {
-    <mat-error>{{getErrorMessage(city,'City')}}</mat-error>
+    <input matInput placeholder="Kiel" [formControl]="formData.city" (ngModelChange)="enableAddUser()">
+    @if (formData.lastName.invalid) {
+    <mat-error>{{getErrorMessage(formData.city,'City')}}</mat-error>
     }
   </mat-form-field>
 </div>
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Birthday</mat-label>
-    <input matInput [matDatepicker]="picker">
+    <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" [formControl]="formData.birthDate">
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
@@ -51,22 +51,23 @@
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput placeholder="name@example.com" [formControl]="email" required>
-    @if (email.invalid) {
-    <mat-error>{{getErrorMessage(email,'Mail')}}</mat-error>
+    <input matInput placeholder="name@example.com" [formControl]="formData.mail" (ngModelChange)="enableAddUser()">
+    @if (formData.mail.invalid) {
+    <mat-error>{{getErrorMessage(formData.mail,'Mail')}}</mat-error>
     }
   </mat-form-field>
 </div>
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Phone</mat-label>
-    <input matInput placeholder="0123456789" [formControl]="phone" required>
-    @if (email.invalid) {
-    <mat-error>{{getErrorMessage(phone,'Number')}}</mat-error>
+    <input matInput placeholder="0123456789" [formControl]="formData.phone">
+    @if (formData.phone.invalid) {
+    <mat-error>{{getErrorMessage(formData.phone,'Number')}}</mat-error>
     }
   </mat-form-field>
 </div>
 <div class="form-btn" mat-dialog-actions>
   <button mat-button (click)="onNoClick()">close</button>
-  <button mat-button (click)=" setUserData()" cdkFocusInitial>add</button> <!-- [mat-dialog-close]="data" -->
+  <button #addUser disabled mat-raised-button color="primary" (click)=" setUserData()">add</button> 
+  <!-- [mat-dialog-close]="data" -->
 </div>
