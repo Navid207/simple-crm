@@ -1,4 +1,9 @@
-<h1 mat-dialog-title>Add user</h1>
+@if (newUser) {
+  <h1 mat-dialog-title>Add user</h1>
+} @else {
+  <h1 mat-dialog-title>User</h1>
+}
+
 <div class="form-input">
   <mat-form-field appearance="outline">
     <mat-label>Fist Name</mat-label>

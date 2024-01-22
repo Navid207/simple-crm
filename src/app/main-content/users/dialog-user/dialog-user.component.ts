@@ -8,7 +8,7 @@ import {
   MatDialogContent,
   MatDialogActions,
 } from '@angular/material/dialog';
-import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -35,25 +35,14 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     MatFormFieldModule,
     MatProgressBarModule
   ],
-  templateUrl: './dialog-add-user.component.html',
-  styleUrl: './dialog-add-user.component.scss'
+  templateUrl: './dialog-user.component.html',
+  styleUrl: './dialog-user.component.scss'
 })
-export class DialogAddUserComponent {
+export class DialogUserComponent {
   loading: boolean = false;
   allowAddBtn: boolean = false;
-
-  constructor(
-    public dialogRef: MatDialogRef<DialogAddUserComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UserData,
-    private userServices: FirebaseService
-  ) { }
-
-
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
-
-
+  newUser: boolean = true;
+  id?: string;
   formData = {
     firstName: new FormControl('', [
       Validators.required,
@@ -95,6 +84,37 @@ export class DialogAddUserComponent {
   }
 
 
+  constructor(
+    public dialogRef: MatDialogRef<DialogUserComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: UserData | any,
+    private userServices: FirebaseService
+  ) {
+    if (data.userdata) this.setFormDataValues(data.userdata);
+  }
+
+
+  setFormDataValues(data: UserData) {
+    this.newUser = false;
+    this.id = data.id;
+    this.formData.firstName.setValue(data.firstName);
+    this.formData.lastName.setValue(data.lastName);
+    this.formData.street.setValue(data.street);
+    this.formData.zipCode.setValue(data.zipCode.toString());
+    this.formData.city.setValue(data.city);
+    this.formData.mail.setValue(data.mail);
+    if (data.phone) this.formData.phone.setValue(data.phone.toString());
+    if (data.birthDate) {
+      let date: Date = new Date(data.birthDate);
+      this.formData.birthDate.setValue(date.toString());
+    }
+  }
+
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+
   getErrorMessage(varForm: FormControl, msgLabel: string) {
     if (varForm.hasError('required')) return msgLabel + ' is required';
     if (varForm.hasError('pattern') || varForm.hasError('minlength')) return (msgLabel + ' not valid');
@@ -103,6 +123,7 @@ export class DialogAddUserComponent {
 
 
   async addUser() {
+    // this.loadingActiv();
     this.loading = true;
     this.allowAddBtn = false;
     this.setUserData();
@@ -110,6 +131,19 @@ export class DialogAddUserComponent {
     this.resetInputs();
     this.dialogRef.close();
   }
+
+
+  // loadingActiv() {
+  //   this.loading = true;
+  //   this.formData.firstName.disabled;
+  //   this.formData.lastName.disabled;
+  //   this.formData.street.disabled;
+  //   this.formData.zipCode.disabled;
+  //   this.formData.city.disabled;
+  //   this.formData.birthDate.disabled;
+  //   this.formData.mail.disabled;
+  //   this.formData.phone.disabled;
+  // }
 
 
   setUserData() {

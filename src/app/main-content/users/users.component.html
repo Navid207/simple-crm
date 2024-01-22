@@ -1,7 +1,22 @@
-<p>users works!</p>
+<mat-card>
+    <table class="table-user">
+        <tr>
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th>City</th>
+        </tr>
+        @for (user of users; track $index) {
+        <tr (click)="openDialogUser(user)">
+            <td>{{ user.firstName }} {{user.lastName}}</td>
+            <td> {{ user.mail }}</td>
+            <td>{{ user.city }}</td>
+        </tr>
+        }
+    </table>
+</mat-card>
 
 
-<button (click)="openDialog()" class="addUser" mat-fab color="primary" matTooltip="Add new User" matTooltipPosition="left"
-    aria-label="Example icon button with a delete icon">
+<button (click)="openDialogNewUser()" class="addUser" mat-fab color="primary" matTooltip="Add new User"
+    matTooltipPosition="left" aria-label="Example icon button with a delete icon">
     <mat-icon>person_add</mat-icon>
 </button>

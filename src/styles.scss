@@ -13,8 +13,10 @@ body {
 /////////// global colors /////////////
 
 $priColer: #7b1fa2;
-$lgBlack: #00000040;
-$lgWhite: #ffffff57;
+$backGround: rgba(0, 0, 0, 0.251);
+$lgBlack: rgba(0, 0, 0, 0.125);
+$lgWhite: rgba(255, 255, 255, 0.125);
+
 
 
 
@@ -36,5 +38,13 @@ $lgWhite: #ffffff57;
     left: $l;
     z-index: $z;
 }
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html,
+body {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

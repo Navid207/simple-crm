@@ -1,5 +1,60 @@
-.addUser{
+@import './../../../styles.scss';
+
+.addUser {
     position: fixed;
     bottom: 32px;
     right: 32px;
+}
+
+
+.table-user {
+    width: 100%;
+    border-collapse: collapse;
+
+    >tr {
+        border-bottom: 2px solid $lgWhite;
+
+        &:first-child {
+            border-bottom: 4px solid $lgWhite;
+        }
+
+        &:last-child {
+            border-bottom: unset;
+        }
+
+        &:not(:first-child){
+
+            &:hover{
+                cursor: pointer;
+                background-color: $lgBlack;
+            }
+        }
+
+        >th {
+            text-align: start;
+            height: 40px;
+
+            &:first-child {
+                padding-left: 12px;
+            }
+
+            &:last-child {
+                padding-right: 12px;
+            }
+        }
+
+        >td {
+            height: 32px;
+
+
+            &:first-child {
+                padding-left: 12px;
+            }
+
+            &:last-child {
+                padding-right: 12px;
+            }
+        }
+    }
+
 }
