@@ -1,0 +1,18 @@
+<mat-card class="head-card">
+    <img src="./../../../assets/img/user.svg" alt="">
+    <div class="info">
+        <mat-card-title>{{ getUser().firstName }} {{ getUser().lastName }}</mat-card-title>
+        <a href="{{'mailto:' + getUser().mail }}"><mat-icon fontIcon="mail"></mat-icon>{{ getUser().mail }}</a>
+        @if (getUser().phone) {
+        <a href="{{'tel:' + getUser().phone }}" ><mat-icon fontIcon="phone"></mat-icon>{{ getUser().phone }}</a>
+        }
+    </div>
+</mat-card>
+
+<mat-card class="address-card">
+    <mat-card-title>Address</mat-card-title>
+    <mat-card-content>
+        {{ getUser().street }}<br>
+        {{ getUser().zipCode }} {{ getUser().city }}
+    </mat-card-content>
+</mat-card>

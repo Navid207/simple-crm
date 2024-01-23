@@ -7,6 +7,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogUserComponent } from './dialog-user/dialog-user.component';
 import { UserData } from '../../shared/interfaces/user-data';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
@@ -17,25 +18,26 @@ import { UserData } from '../../shared/interfaces/user-data';
     MatButtonModule,
     MatTooltipModule,
     MatCardModule,
+    RouterLink
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
 })
 export class UsersComponent {
-  users!: UserData[];
 
-  
-  constructor(public dialog: MatDialog, private userServices: FirebaseService ) {}
+  unsubUsers;
 
-  
+  constructor(public dialog: MatDialog, private userServices: FirebaseService ) {
+    this.unsubUsers = this.userServices.subUsers()
+  }
 
-  ngOnInit() {
-    this.users = this.userServices.subUsers();
+  ngOnDestroy(){
+    this.unsubUsers();
   }
 
 
-  ngOnDestroy() {
-    this.users;
+  getUsers():UserData[] {
+    return this.userServices.users;
   }
 
 

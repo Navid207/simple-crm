@@ -5,8 +5,8 @@
             <th>E-Mail</th>
             <th>City</th>
         </tr>
-        @for (user of users; track $index) {
-        <tr (click)="openDialogUser(user)">
+        @for (user of getUsers(); track $index) {
+        <tr [routerLink]="'/user/'+ user.id">
             <td>{{ user.firstName }} {{user.lastName}}</td>
             <td> {{ user.mail }}</td>
             <td>{{ user.city }}</td>

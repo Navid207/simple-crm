@@ -89,7 +89,9 @@ export class DialogUserComponent {
     @Inject(MAT_DIALOG_DATA) public data: UserData | any,
     private userServices: FirebaseService
   ) {
-    if (data.userdata) this.setFormDataValues(data.userdata);
+    if (!data.userdata) return
+    this.setFormDataValues(data.userdata);
+    this.disableInputs();
   }
 
 
@@ -123,27 +125,31 @@ export class DialogUserComponent {
 
 
   async addUser() {
-    // this.loadingActiv();
-    this.loading = true;
-    this.allowAddBtn = false;
     this.setUserData();
+    this.setLoading();
     await this.userServices.addNewUser(this.data);
     this.resetInputs();
     this.dialogRef.close();
   }
 
 
-  // loadingActiv() {
-  //   this.loading = true;
-  //   this.formData.firstName.disabled;
-  //   this.formData.lastName.disabled;
-  //   this.formData.street.disabled;
-  //   this.formData.zipCode.disabled;
-  //   this.formData.city.disabled;
-  //   this.formData.birthDate.disabled;
-  //   this.formData.mail.disabled;
-  //   this.formData.phone.disabled;
-  // }
+  setLoading() {
+    this.disableInputs();
+    this.allowAddBtn = false;
+    this.loading = true;
+  }
+
+
+  disableInputs() {
+    this.formData.firstName.disable();
+    this.formData.lastName.disable();
+    this.formData.street.disable();
+    this.formData.zipCode.disable();
+    this.formData.city.disable();
+    this.formData.birthDate.disable();
+    this.formData.mail.disable();
+    this.formData.phone.disable();
+  }
 
 
   setUserData() {
