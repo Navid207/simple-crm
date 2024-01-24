@@ -24,7 +24,7 @@
             @include dFlex($gap: 12px, $jc: flex-start);
             text-decoration: none;
             color: white;
-            
+
             &:hover {
                 cursor: pointer;
                 background-color: $lgWhite;
@@ -41,4 +41,15 @@
     mat-card-title {
         padding: 16px;
     }
+}
+
+
+.pin-top-right-corner {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.mat-mdc-menu-item {
+    min-height: 26px;
 }

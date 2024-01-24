@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc } from '@angular/fire/firestore';
 import { UserData } from '../interfaces/user-data';
 
 
@@ -8,7 +8,16 @@ import { UserData } from '../interfaces/user-data';
 })
 export class FirebaseService {
   users!: UserData[];
-  user!: UserData;
+  user: UserData = {
+    firstName: '',
+    lastName: '',
+    street: '',
+    zipCode: NaN,
+    city: '',
+    mail: '',
+    phone: NaN,
+    birthDate: NaN,
+  };
 
   firestore: Firestore = inject(Firestore);
 
@@ -53,7 +62,7 @@ export class FirebaseService {
 
   subUser(id: string) {
     let ref = this.getSingleDocRef('users', id);
-    return onSnapshot(ref, (user) => { 
+    return onSnapshot(ref, (user) => {
       this.user = this.fillUserData(user);
     })
   }
@@ -61,6 +70,29 @@ export class FirebaseService {
 
   getSingleDocRef(colId: string, docId: string) {
     return doc(collection(this.firestore, colId), docId);
+  }
+
+
+  async updateUserData(user: UserData) {
+    if (!user.id) return
+    let json = this.getCleanJson(user);
+    await updateDoc(this.getSingleDocRef('users', user.id), json).catch(
+      (err) => { console.error(err) }
+    ).then();
+  }
+
+
+  getCleanJson(user: UserData) {
+    return {
+      firstName: user.firstName,
+      lastName: user.lastName,
+      street: user.street,
+      zipCode: user.zipCode,
+      city: user.city,
+      mail: user.mail,
+      phone: user.phone,
+      birthDate: user.birthDate,
+    }
   }
 
 }

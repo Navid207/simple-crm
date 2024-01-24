@@ -39,9 +39,12 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
   styleUrl: './dialog-user.component.scss'
 })
 export class DialogUserComponent {
-  loading: boolean = false;
-  allowAddBtn: boolean = false;
-  newUser: boolean = true;
+  newUser = false;
+  loading = false;
+  allowAddBtn = false;
+  userInfoGeneral = false;
+  userInfoAddress = false;
+  dialogTitle = '';
   id?: string;
   formData = {
     firstName: new FormControl('', [
@@ -86,17 +89,36 @@ export class DialogUserComponent {
 
   constructor(
     public dialogRef: MatDialogRef<DialogUserComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: UserData | any,
+    @Inject(MAT_DIALOG_DATA) public data:any,
     private userServices: FirebaseService
   ) {
-    if (!data.userdata) return
-    this.setFormDataValues(data.userdata);
-    this.disableInputs();
+    if (!data.settings) this.setNewUser();
+    else this.setUserInfos(data.userdata, data.settings);
+  }
+
+  setNewUser() {
+    this.dialogTitle = 'Add new User';
+    this.newUser = true;
+    this.userInfoGeneral = true;
+    this.userInfoAddress = true;
+  }
+
+
+  setUserInfos(userdatas:UserData, settings: 'general' | 'address') {
+    this.data = userdatas;
+    this.setFormDataValues(userdatas);
+    if (settings === 'general'){
+      this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName;
+      this.userInfoGeneral = true; 
+    } 
+    else {
+      this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName + ' ' +'Address';
+      this.userInfoAddress = true;
+    }
   }
 
 
   setFormDataValues(data: UserData) {
-    this.newUser = false;
     this.id = data.id;
     this.formData.firstName.setValue(data.firstName);
     this.formData.lastName.setValue(data.lastName);
@@ -128,6 +150,15 @@ export class DialogUserComponent {
     this.setUserData();
     this.setLoading();
     await this.userServices.addNewUser(this.data);
+    this.resetInputs();
+    this.dialogRef.close();
+  }
+
+
+  async saveUserData() {
+    this.setUserData();
+    this.setLoading();
+    await this.userServices.updateUserData(this.data);
     this.resetInputs();
     this.dialogRef.close();
   }
