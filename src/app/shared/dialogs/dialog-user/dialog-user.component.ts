@@ -1,5 +1,5 @@
 import { Component, Inject, ViewChild } from '@angular/core';
-import { UserData } from '../../../shared/interfaces/user-data';
+import { UserData } from '../../interfaces/user-data';
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
@@ -12,10 +12,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { provideNativeDateAdapter } from '@angular/material/core';
-import { FirebaseService } from '../../../shared/services/firebase.service';
+import { FirebaseService } from '../../services/firebase/firebase.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { ZipCodeService } from '../../services/zip-code/zip-code.service';
 
 
 @Component({
@@ -32,8 +34,9 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     ReactiveFormsModule,
     MatDialogClose,
     MatDatepickerModule,
+    MatSelectModule,
     MatFormFieldModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   templateUrl: './dialog-user.component.html',
   styleUrl: './dialog-user.component.scss'
@@ -45,6 +48,8 @@ export class DialogUserComponent {
   userInfoGeneral = false;
   userInfoAddress = false;
   dialogTitle = '';
+  selectableCitys: string[] = [];
+  serchZipCode!: number;
   id?: string;
   formData = {
     firstName: new FormControl('', [
@@ -65,11 +70,10 @@ export class DialogUserComponent {
     zipCode: new FormControl('', [
       Validators.required,
       Validators.pattern('^[0-9]+$'),
-      Validators.minLength(2)
+      Validators.minLength(3)
     ]),
     city: new FormControl('', [
       Validators.required,
-      Validators.pattern('^[a-zA-ZäöüÄÖÜß\\s]*$'),
       Validators.minLength(3)
     ]),
     birthDate: new FormControl('', [
@@ -89,12 +93,15 @@ export class DialogUserComponent {
 
   constructor(
     public dialogRef: MatDialogRef<DialogUserComponent>,
-    @Inject(MAT_DIALOG_DATA) public data:any,
-    private userServices: FirebaseService
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private userServices: FirebaseService,
+    private zipCodeService: ZipCodeService
   ) {
     if (!data.settings) this.setNewUser();
     else this.setUserInfos(data.userdata, data.settings);
+    this.formData.city.disable();
   }
+
 
   setNewUser() {
     this.dialogTitle = 'Add new User';
@@ -104,15 +111,15 @@ export class DialogUserComponent {
   }
 
 
-  setUserInfos(userdatas:UserData, settings: 'general' | 'address') {
+  setUserInfos(userdatas: UserData, settings: 'general' | 'address') {
     this.data = userdatas;
     this.setFormDataValues(userdatas);
-    if (settings === 'general'){
+    if (settings === 'general') {
       this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName;
-      this.userInfoGeneral = true; 
-    } 
+      this.userInfoGeneral = true;
+    }
     else {
-      this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName + ' ' +'Address';
+      this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName + ' ' + 'Address';
       this.userInfoAddress = true;
     }
   }
@@ -120,6 +127,8 @@ export class DialogUserComponent {
 
   setFormDataValues(data: UserData) {
     this.id = data.id;
+    this.serchZipCode = data.zipCode;
+    this.selectableCitys.push(data.city);
     this.formData.firstName.setValue(data.firstName);
     this.formData.lastName.setValue(data.lastName);
     this.formData.street.setValue(data.street);
@@ -220,12 +229,45 @@ export class DialogUserComponent {
 
 
   enableAddUser() {
+    this.allowAddBtn = false;
     if (!this.formData.firstName.valid) return
     if (!this.formData.lastName.valid) return
     if (!this.formData.street.valid) return
     if (!this.formData.zipCode.valid) return
-    if (!this.formData.city.valid) return
+    if (this.formData.city.value === null) return
     if (!this.formData.mail.valid) return
     else this.allowAddBtn = true;
   }
+
+
+  checkZipCode() {
+    if (this.formData.zipCode.status === 'VALID') {
+      let zip: number = parseInt(this.getFormData(this.formData.zipCode));
+      this.formData.city.enable();
+      if (zip != this.serchZipCode) this.fillSelectableCitys(zip);
+    }
+    else {
+      this.formData.city.disable();
+      return
+    }
+  }
+
+
+  fillSelectableCitys(zip: number) {
+    this.formData.city.reset();
+    this.serchZipCode = zip;
+    this.zipCodeService.getArrayOfCitys(this.serchZipCode)
+    .then((result: string[]) => {
+      this.selectableCitys = result;
+    })
+    .catch((error) => {
+      console.error('Error by filling the selectable Citys:', error);
+    });  
+  }
+
+  resteCitySelection(){
+    this.formData.city.reset();
+    this.enableAddUser();
+  }
+
 }

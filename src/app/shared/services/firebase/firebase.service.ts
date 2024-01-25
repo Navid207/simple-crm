@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc } from '@angular/fire/firestore';
-import { UserData } from '../interfaces/user-data';
+import { UserData } from '../../interfaces/user-data';
 
 
 @Injectable({

@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { FirebaseService } from '../../shared/services/firebase.service';
+import { FirebaseService } from '../../shared/services/firebase/firebase.service';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogUserComponent } from './dialog-user/dialog-user.component';
+import { DialogUserComponent } from '../../shared/dialogs/dialog-user/dialog-user.component';
 import { UserData } from '../../shared/interfaces/user-data';
 import { RouterLink } from '@angular/router';
 

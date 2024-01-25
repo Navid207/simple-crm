@@ -2,14 +2,14 @@
 
 @if (userInfoGeneral) {
 <div class="form-input">
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Fist Name</mat-label>
     <input matInput placeholder="Fist Name" [formControl]="formData.firstName" (ngModelChange)="enableAddUser()">
     @if (formData.firstName.invalid) {
     <mat-error>{{getErrorMessage(formData.firstName,'Name')}}</mat-error>
     }
   </mat-form-field>
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Last Name</mat-label>
     <input matInput placeholder="Last Name" [formControl]="formData.lastName" (ngModelChange)="enableAddUser()">
     @if (formData.lastName.invalid) {
@@ -20,7 +20,7 @@
 }
 @if (userInfoAddress) {
 <div class="form-input">
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Street + House No.</mat-label>
     <input matInput placeholder="Examplesteet 1" [formControl]="formData.street" (ngModelChange)="enableAddUser()">
     @if (formData.street.invalid) {
@@ -29,25 +29,26 @@
   </mat-form-field>
 </div>
 <div class="form-input">
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Zip code</mat-label>
-    <input matInput placeholder="24106" [formControl]="formData.zipCode" (ngModelChange)="enableAddUser()">
+    <input matInput placeholder="24106" [formControl]="formData.zipCode" (ngModelChange)="resteCitySelection()" (blur)="checkZipCode()">
     @if (formData.firstName.invalid) {
     <mat-error>{{getErrorMessage(formData.zipCode,'Zip Code')}}</mat-error>
     }
   </mat-form-field>
-  <mat-form-field appearance="outline">
-    <mat-label>City</mat-label>
-    <input matInput placeholder="Kiel" [formControl]="formData.city" (ngModelChange)="enableAddUser()">
-    @if (formData.lastName.invalid) {
-    <mat-error>{{getErrorMessage(formData.city,'City')}}</mat-error>
-    }
+  <mat-form-field appearance="outline" [color]="'accent'">
+    <mat-label>Select City</mat-label>
+    <mat-select [formControl]="formData.city" (ngModelChange)="enableAddUser()">
+      @for (city of selectableCitys; track $index) {
+        <mat-option value="{{ city }}">{{ city }}</mat-option>
+      }
+    </mat-select>
   </mat-form-field>
 </div>
 }
 @if (userInfoGeneral) {
 <div class="form-input">
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Birthday</mat-label>
     <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" [formControl]="formData.birthDate">
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -55,7 +56,7 @@
   </mat-form-field>
 </div>
 <div class="form-input">
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Email</mat-label>
     <input matInput placeholder="name@example.com" [formControl]="formData.mail" (ngModelChange)="enableAddUser()">
     @if (formData.mail.invalid) {
@@ -64,7 +65,7 @@
   </mat-form-field>
 </div>
 <div class="form-input">
-  <mat-form-field appearance="outline">
+  <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Phone</mat-label>
     <input matInput placeholder="0123456789" [formControl]="formData.phone">
     @if (formData.phone.invalid) {
@@ -77,9 +78,9 @@
 <div class="form-btn" mat-dialog-actions>
   <button mat-button [disabled]="loading" (click)="onNoClick()">close</button>
   @if (newUser) {
-    <button [disabled]="!allowAddBtn" mat-raised-button color="primary" (click)="addUser()">add</button>
+    <button [disabled]="!allowAddBtn" mat-raised-button color="accent" (click)="addUser()">add</button>
   } @else{
-    <button [disabled]="!allowAddBtn" mat-raised-button color="primary" (click)="saveUserData()">save</button>
+    <button [disabled]="!allowAddBtn" mat-raised-button color="accent" (click)="saveUserData()">save</button>
   }
   
 </div>
