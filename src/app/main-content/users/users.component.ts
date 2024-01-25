@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogUserComponent } from '../../shared/dialogs/dialog-user/dialog-user.component';
 import { UserData } from '../../shared/interfaces/user-data';
 import { RouterLink } from '@angular/router';
+import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { DialogDeleteComponent } from '../../shared/dialogs/delete/dialog-delete.component';
 
 
 @Component({
@@ -18,7 +20,9 @@ import { RouterLink } from '@angular/router';
     MatButtonModule,
     MatTooltipModule,
     MatCardModule,
-    RouterLink
+    MatMenu,
+    MatMenuModule,
+    RouterLink,
   ],
   templateUrl: './users.component.html',
   styleUrl: './users.component.scss'
@@ -27,23 +31,32 @@ export class UsersComponent {
 
   unsubUsers;
 
-  constructor(public dialog: MatDialog, private userServices: FirebaseService ) {
+  constructor(public dialog: MatDialog, private userServices: FirebaseService) {
     this.unsubUsers = this.userServices.subUsers()
   }
 
-  ngOnDestroy(){
+  ngOnDestroy() {
     this.unsubUsers();
   }
 
 
-  getUsers():UserData[] {
+  getUsers(): UserData[] {
     return this.userServices.users;
   }
 
 
-  openDialogUser(userdata: UserData): void { 
+  openDialogUser(userdata: UserData, settings: 'general' | 'address' | 'all'): void {
     const dialogRef = this.dialog.open(DialogUserComponent, {
-      data: {userdata},
+      data: { userdata, settings },
+    });
+    dialogRef.afterClosed().subscribe(result => { });
+  }
+
+
+  openDialogDelet(id: String | undefined, collection: String, title: string): void {
+    if (!id) return
+    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+      data: { id, collection, title },
     });
     dialogRef.afterClosed().subscribe(result => { });
   }

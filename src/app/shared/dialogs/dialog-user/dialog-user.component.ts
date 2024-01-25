@@ -111,16 +111,21 @@ export class DialogUserComponent {
   }
 
 
-  setUserInfos(userdatas: UserData, settings: 'general' | 'address') {
+  setUserInfos(userdatas: UserData, settings: 'general' | 'address' | 'all') {
     this.data = userdatas;
     this.setFormDataValues(userdatas);
     if (settings === 'general') {
       this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName;
       this.userInfoGeneral = true;
     }
-    else {
+    if (settings === 'address') {
       this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName + ' ' + 'Address';
       this.userInfoAddress = true;
+    }
+    if (settings === 'all') {
+      this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName;
+      this.userInfoAddress = true;
+      this.userInfoGeneral = true;
     }
   }
 

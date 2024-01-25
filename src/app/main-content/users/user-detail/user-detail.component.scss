@@ -1,4 +1,4 @@
-@import './../../../styles.scss';
+@import './../../../../styles.scss';
 
 .head-card {
     @include dFlex($gap: 50px, $jc: flex-start, $ai: flex-end);

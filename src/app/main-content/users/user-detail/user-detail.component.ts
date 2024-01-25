@@ -4,10 +4,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu'
 import { ActivatedRoute } from '@angular/router';
-import { FirebaseService } from '../../shared/services/firebase/firebase.service';
-import { UserData } from '../../shared/interfaces/user-data';
+import { FirebaseService } from '../../../shared/services/firebase/firebase.service';
+import { UserData } from '../../../shared/interfaces/user-data';
 import { MatDialog } from '@angular/material/dialog';
-import { DialogUserComponent } from '../../shared/dialogs/dialog-user/dialog-user.component';
+import { DialogUserComponent } from '../../../shared/dialogs/dialog-user/dialog-user.component';
 
 @Component({
   selector: 'app-user-detail',
@@ -45,7 +45,7 @@ export class UserDetailComponent {
   }
 
 
-  openDialogUser(userdata: UserData, settings: 'general' | 'address'): void { 
+  openDialogUser(userdata: UserData, settings: 'general' | 'address' | 'all'): void { 
     userdata.id = this.id;
     const dialogRef = this.dialog.open(DialogUserComponent, {
       data: {userdata, settings}

@@ -6,10 +6,19 @@
             <th>City</th>
         </tr>
         @for (user of getUsers(); track $index) {
-        <tr [routerLink]="'/user/'+ user.id">
-            <td>{{ user.firstName }} {{user.lastName}}</td>
-            <td> {{ user.mail }}</td>
-            <td>{{ user.city }}</td>
+        <tr>
+            <td [routerLink]="'/user/'+ user.id">{{ user.firstName }} {{user.lastName}}</td>
+            <td [routerLink]="'/user/'+ user.id"> {{ user.mail }}</td>
+            <td [routerLink]="'/user/'+ user.id">{{ user.city }}</td>
+            <button mat-icon-button [matMenuTriggerFor]="generlMenu" class="pin-top-right-corner">
+                <mat-icon>more_vertic</mat-icon>
+            </button>
+            <mat-menu #generlMenu="matMenu">
+                <button mat-menu-item (click)="openDialogUser(user,'all')">Edit <mat-icon>edit</mat-icon></button>
+                <button mat-menu-item
+                    (click)="openDialogDelet(user.id,'users', (user.firstName+' '+user.lastName))">Delete
+                    <mat-icon>delete</mat-icon></button>
+            </mat-menu>
         </tr>
         }
     </table>

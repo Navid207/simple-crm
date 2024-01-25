@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { UserData } from '../../interfaces/user-data';
 
 
@@ -93,6 +93,14 @@ export class FirebaseService {
       phone: user.phone,
       birthDate: user.birthDate,
     }
+  }
+
+
+  async delete(id: string, colId: string) {
+    if (!id) return
+    await deleteDoc(this.getSingleDocRef(colId, id)).catch(
+      (err) => { console.error(err) }
+    ).then();
   }
 
 }

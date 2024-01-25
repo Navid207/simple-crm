@@ -9,10 +9,12 @@
 
 .table-user {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: collapse;    
+    overflow: hidden;
 
     >tr {
         border-bottom: 2px solid $lgWhite;
+        position: relative;
 
         &:first-child {
             border-bottom: 4px solid $lgWhite;
@@ -27,6 +29,11 @@
             &:hover{
                 cursor: pointer;
                 background-color: $lgBlack;
+
+                .pin-top-right-corner {
+                    display: block;
+                }
+
             }
         }
 
@@ -57,4 +64,11 @@
         }
     }
 
+}
+
+.pin-top-right-corner {
+    display: none;
+    position: absolute;
+    top: -5px;
+    right: -5px;
 }
