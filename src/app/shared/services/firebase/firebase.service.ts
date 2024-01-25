@@ -24,9 +24,11 @@ export class FirebaseService {
   constructor() { }
 
 
-  subUsers() {
-    let ref = this.getCollectionRef('users');
-    return onSnapshot(ref, (users) => {
+  subUsers(order: string | undefined) {
+    let q;
+    if (order) q = query(this.getCollectionRef("users"), orderBy(order));
+    else q = query(this.getCollectionRef("users"))
+    return onSnapshot(q, (users) => {
       this.users = [];
       users.docs.forEach(element => { this.users.push(this.fillUserData(element)) })
     })

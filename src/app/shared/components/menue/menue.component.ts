@@ -25,6 +25,11 @@ export class MenueComponent {
       name: 'Users',
       icon: 'perm_identity',
       link: 'users'
+    },
+    {
+      name: 'Companies',
+      icon: 'store',
+      link: 'companies'
     }
   ];
 

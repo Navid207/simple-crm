@@ -1,16 +1,23 @@
 <mat-card>
     <table class="table-user">
         <tr>
-            <th>Name</th>
-            <th>E-Mail</th>
-            <th>City</th>
+            <th (click)="changeUsersOrder('firstName')">Name
+                @if(orderBy == 'firstName'){<mat-icon>expand_more</mat-icon>}
+            </th>
+            <th (click)="changeUsersOrder('mail')">E-Mail
+                @if(orderBy == 'mail'){<mat-icon>expand_more</mat-icon>}
+            </th>
+            <th (click)="changeUsersOrder('city')">City
+                @if(orderBy == 'city'){<mat-icon>expand_more</mat-icon>}
+            </th>
         </tr>
         @for (user of getUsers(); track $index) {
-        <tr>
+        <tr> 
+            <!-- [class.selectedRowIndex]="generlMenu"  -->
             <td [routerLink]="'/user/'+ user.id">{{ user.firstName }} {{user.lastName}}</td>
             <td [routerLink]="'/user/'+ user.id"> {{ user.mail }}</td>
             <td [routerLink]="'/user/'+ user.id">{{ user.city }}</td>
-            <button mat-icon-button [matMenuTriggerFor]="generlMenu" class="pin-top-right-corner">
+            <button mat-icon-button [matMenuTriggerFor]="generlMenu" class="pin-top-right-corner" (click)="selectRow($index)">
                 <mat-icon>more_vertic</mat-icon>
             </button>
             <mat-menu #generlMenu="matMenu">

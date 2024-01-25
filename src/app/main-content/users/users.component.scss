@@ -8,11 +8,13 @@
 
 
 .table-user {
-    width: 100%;
+    @include dFlex($fd: column);
     border-collapse: collapse;    
     overflow: hidden;
 
     >tr {
+        display: flex;
+        width: 100%;
         border-bottom: 2px solid $lgWhite;
         position: relative;
 
@@ -38,11 +40,15 @@
         }
 
         >th {
+            @include dFlex($jc: unset);
             text-align: start;
-            height: 40px;
+            width: 100%;
+            height: 50px;  
+            padding-left: 12px;   
 
-            &:first-child {
-                padding-left: 12px;
+            &:hover{
+                cursor: pointer;
+                background-color: $lgBlack;
             }
 
             &:last-child {
@@ -51,7 +57,9 @@
         }
 
         >td {
-            height: 32px;
+            @include dFlex($jc: unset);
+            height: 48px;
+            width: 100%;
 
 
             &:first-child {
@@ -66,9 +74,13 @@
 
 }
 
+.selectedRowIndex{
+    background-color: $lgBlack;
+}
+
 .pin-top-right-corner {
     display: none;
     position: absolute;
-    top: -5px;
-    right: -5px;
+    top: 0.5px;
+    right: 12px;
 }

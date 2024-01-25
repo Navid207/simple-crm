@@ -9,7 +9,8 @@ import { DialogUserComponent } from '../../shared/dialogs/dialog-user/dialog-use
 import { UserData } from '../../shared/interfaces/user-data';
 import { RouterLink } from '@angular/router';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
-import { DialogDeleteComponent } from '../../shared/dialogs/delete/dialog-delete.component';
+import { DialogDeleteComponent } from '../../shared/dialogs/dialog-delete/dialog-delete.component';
+
 
 
 @Component({
@@ -30,9 +31,17 @@ import { DialogDeleteComponent } from '../../shared/dialogs/delete/dialog-delete
 export class UsersComponent {
 
   unsubUsers;
+  orderBy = 'firstName';
+  selectedRowIndex!: number;
 
   constructor(public dialog: MatDialog, private userServices: FirebaseService) {
-    this.unsubUsers = this.userServices.subUsers()
+    this.unsubUsers = this.userServices.subUsers(this.orderBy);
+  }
+
+  changeUsersOrder(orderBy: string) {
+    this.orderBy = orderBy;
+    this.unsubUsers();
+    this.unsubUsers = this.userServices.subUsers(this.orderBy);
   }
 
   ngOnDestroy() {
@@ -67,5 +76,10 @@ export class UsersComponent {
       data: {},
     });
     dialogRef.afterClosed().subscribe(result => { });
+  }
+
+
+  selectRow(index: number): void {
+    this.selectedRowIndex = index;
   }
 }
