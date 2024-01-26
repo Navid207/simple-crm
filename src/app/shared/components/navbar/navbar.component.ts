@@ -20,4 +20,8 @@ export class NavbarComponent {
 
   @Input() slidBar!: MatDrawer;
 
+
+  test(){
+    debugger
+  }
 }

@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatSort, Sort, MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MenueService } from '../../shared/services/menue/menue.service';
 
 export interface PeriodicElement {
   name: string;
@@ -37,7 +38,9 @@ export class CompaniesComponent {
   displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
   dataSource = new MatTableDataSource(ELEMENT_DATA);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer) {}
+  constructor(private menue: MenueService, private _liveAnnouncer: LiveAnnouncer) {
+    this.menue.setActivCategory();
+  }
 
   @ViewChild(MatSort) sort!: MatSort;
 

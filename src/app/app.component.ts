@@ -12,7 +12,7 @@ import { MenueComponent } from './shared/components/menue/menue.component';
   imports: [
     CommonModule,
     RouterOutlet,
-    RouterLink, 
+    RouterLink,
     RouterLinkActive,
     MatSidenavModule,
     NavbarComponent,
@@ -24,4 +24,6 @@ import { MenueComponent } from './shared/components/menue/menue.component';
 export class AppComponent {
   title = 'simple-crm';
   showFiller = false;
+  sideMenuPind = true;
+
 }

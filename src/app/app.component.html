@@ -1,6 +1,6 @@
 <mat-drawer-container autosize>
-  <mat-drawer #drawer class="example-sidenav" mode="side" opened=true>
-    <app-menue></app-menue>
+  <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="sideMenuPind">
+    <app-menue [fixed]="sideMenuPind" [slidBar]="drawer"></app-menue>
   </mat-drawer>
 
   <app-navbar [slidBar]="drawer"></app-navbar>

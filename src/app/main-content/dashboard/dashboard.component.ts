@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { MenueService } from '../../shared/services/menue/menue.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,4 +10,7 @@ import { Component } from '@angular/core';
 })
 export class DashboardComponent {
 
+  constructor(private menue: MenueService) {
+    this.menue.setActivCategory();
+  }
 }

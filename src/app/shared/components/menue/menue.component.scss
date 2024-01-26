@@ -1,5 +1,15 @@
 @import './../../../../styles.scss';
 
+nav {
+    height: 100%;
+
+    &:hover {
+        .pin {
+            display: unset;
+        }
+    }
+}
+
 div {
     @include dFlex ($jc: flex-start);
     font-size: var(--mat-toolbar-title-text-size);
@@ -11,19 +21,30 @@ div {
     border-bottom: 3px solid $lgWhite;
 }
 
-ul{
+ul {
     list-style-type: none;
     padding: 0;
     margin: 0;
 
-    >li{
+    >li {
         @include dFlex ($jc: flex-start, $gap: 8px);
         padding-inline: 30px;
         height: 42px;
 
-        &:hover{
+        &:hover {
             cursor: pointer;
             background-color: $lgBlack;
         }
     }
+}
+
+.selectedSection {
+    background-color: $lgBlack;
+}
+
+.pin {
+    display: none;
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
 }

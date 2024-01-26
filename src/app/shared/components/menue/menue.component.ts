@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { MenueCategorys } from '../../interfaces/menue-categorys';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
-
+import { MenueService } from '../../services/menue/menue.service';
+import { MatDrawer } from '@angular/material/sidenav';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-menue',
@@ -10,38 +12,35 @@ import { RouterLink } from '@angular/router';
   imports: [
     RouterLink,
     MatIconModule,
+    MatButtonModule,
+    MatTooltipModule
   ],
   templateUrl: './menue.component.html',
   styleUrl: './menue.component.scss'
 })
 export class MenueComponent {
-  categorys: MenueCategorys[] = [
-    {
-      name: 'Dashboard',
-      icon: 'assignment',
-      link: 'dashboard'
-    },
-    {
-      name: 'Users',
-      icon: 'perm_identity',
-      link: 'users'
-    },
-    {
-      name: 'Companies',
-      icon: 'store',
-      link: 'companies'
-    }
-  ];
 
+  @Input() fixed!: boolean;
+  @Input() slidBar!: MatDrawer;
 
-  // not in Use now !
-  // url!: string;
+  constructor(public menue: MenueService) { }
 
-  // changeCategory(){
-  //   this.getUrl();
-  // }
+  closeSlidBar() {
+    if (this.fixed) return
+    this.slidBar.close();
+  }
 
-  // getUrl() {
-  //   this.url = window.p
-  // }
+  color(): string {
+    if (this.fixed) return '#ffffff'
+    else return '#ffffff42'
+  }
+
+  toggleFixed() {
+    this.fixed = !this.fixed; 
+  }
+
+  tooltipInfo():string {
+    if (this.fixed) return 'click to unpin the slide menus'
+    else return 'click to pin the Slide-Menus'
+  }
 }

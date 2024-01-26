@@ -1,11 +1,18 @@
-<div>
-    Placeholder Logo
-</div>
-<ul>
-    @for (category of categorys; track $index) {
-    <li routerLink="{{ category.link }}">
-        <mat-icon>{{ category.icon }}</mat-icon>
-        {{ category.name }}
-    </li>
-    }
-</ul>
+<nav (mouseleave)="closeSlidBar()">
+    <div>
+        Placeholder Logo
+    </div>
+    <ul>
+        @for (category of menue.categorys; track $index) {
+        <li routerLink="{{ category.link }}" [class.selectedSection]="category.activ" (click)="closeSlidBar()">
+            <mat-icon>{{ category.icon }}</mat-icon>
+            {{ category.name }}
+        </li>
+        }
+    </ul>
+
+    <button mat-icon-button class="pin" (click)="toggleFixed()" matTooltip="{{ tooltipInfo() }}" matTooltipPosition="left">
+        <mat-icon [style.color]="color()">push_pin</mat-icon>
+    </button>
+
+</nav>
