@@ -1,38 +1,37 @@
-<table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)"
-       class="mat-elevation-z8">
+<mat-card>
+  <table class="table-user">
+      <tr>
+          <th>Name
+              <!-- @if(orderBy == 'firstName'){<mat-icon>expand_more</mat-icon>} -->
+          </th>
+          <th>Address
+              <!-- @if(orderBy == 'mail'){<mat-icon>expand_more</mat-icon>} -->
+          </th>
+          <th>City
+              <!-- @if(orderBy == 'city'){<mat-icon>expand_more</mat-icon>} -->
+          </th>
+      </tr>
+      <!-- @for (user of getUsers(); track $index) {
+      <tr [class.selectedRowIndex]="selectedRowIndex === $index"> 
+          <td [routerLink]="'/user/'+ user.id">{{ user.firstName }} {{user.lastName}}</td>
+          <td [routerLink]="'/user/'+ user.id"> {{ user.mail }}</td>
+          <td [routerLink]="'/user/'+ user.id">{{ user.city }}</td>
+          <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-top-right-corner" (click)="selectRow($index)">
+              <mat-icon>more_vertic</mat-icon>
+          </button>
+          <mat-menu #generlMenu$index="matMenu" (close)="selectRow(-1)">
+              <button mat-menu-item (click)="openDialogUser(user,'all')">Edit <mat-icon>edit</mat-icon></button>
+              <button mat-menu-item
+                  (click)="openDialogDelet(user.id,'users', (user.firstName+' '+user.lastName))">Delete
+                  <mat-icon>delete</mat-icon></button>
+          </mat-menu>
+      </tr>
+      } -->
+  </table>
+</mat-card>
 
-  <!-- Position Column -->
-  <ng-container matColumnDef="position">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by number">
-      No.
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-  </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
-      Name
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-  </ng-container>
-
-  <!-- Weight Column -->
-  <ng-container matColumnDef="weight">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by weight">
-      Weight
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-  </ng-container>
-
-  <!-- Symbol Column -->
-  <ng-container matColumnDef="symbol">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by symbol">
-      Symbol
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-</table>
+<button class="fix-bottom-r-corner" mat-fab color="primary" matTooltip="Add new company"
+  matTooltipPosition="left" routerLink="new_Company">
+  <mat-icon>add_business</mat-icon>
+</button>

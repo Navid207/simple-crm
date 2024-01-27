@@ -1,12 +1,5 @@
 @import './../../../styles.scss';
 
-.addUser {
-    position: fixed;
-    bottom: 32px;
-    right: 32px;
-}
-
-
 .table-user {
     @include dFlex($fd: column);
     border-collapse: collapse;    

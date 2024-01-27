@@ -8,10 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { DialogUserComponent } from '../../shared/dialogs/dialog-user/dialog-user.component';
 import { UserData } from '../../shared/interfaces/user-data';
 import { RouterLink } from '@angular/router';
-import { MatMenu, MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
-import { DialogDeleteComponent } from '../../shared/dialogs/dialog-delete/dialog-delete.component';
-import { MenueComponent } from '../../shared/components/menue/menue.component';
-import { MenueService } from '../../shared/services/menue/menue.service';
+import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { DialogDeleteComponent  } from '../../shared/dialogs/dialog-delete/dialog-delete.component';
 
 
 
@@ -36,8 +34,7 @@ export class UsersComponent {
   orderBy = 'firstName';
   selectedRowIndex!: number;
 
-  constructor(public dialog: MatDialog, private userServices: FirebaseService, private menue: MenueService) {
-    this.menue.setActivCategory();
+  constructor(public dialog: MatDialog, private userServices: FirebaseService) {
     this.unsubUsers = this.userServices.subUsers(this.orderBy);
   }
 
@@ -86,5 +83,4 @@ export class UsersComponent {
     if (index >= 0) this.selectedRowIndex = index;
     else this.selectedRowIndex = NaN;
   }
-
 }

@@ -9,7 +9,7 @@ import {
   MatDialogActions,
 } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSelectModule } from '@angular/material/select';
@@ -18,6 +18,7 @@ import { provideNativeDateAdapter } from '@angular/material/core';
 import { FirebaseService } from '../../services/firebase/firebase.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ZipCodeService } from '../../services/zip-code/zip-code.service';
+import { FormService } from '../../services/form/form.service';
 
 
 @Component({
@@ -51,51 +52,15 @@ export class DialogUserComponent {
   selectableCitys: string[] = [];
   serchZipCode!: number;
   id?: string;
-  formData = {
-    firstName: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[a-zA-ZäöüÄÖÜß\\s]*$'),
-      Validators.minLength(2)
-    ]),
-    lastName: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[a-zA-ZäöüÄÖÜß\\s]*$'),
-      Validators.minLength(2)
-    ]),
-    street: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[a-zA-ZäöüÄÖÜß\\s\\-\'",.!?]+[0-9]*$'),
-      Validators.minLength(3)
-    ]),
-    zipCode: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]+$'),
-      Validators.minLength(3)
-    ]),
-    city: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3)
-    ]),
-    birthDate: new FormControl('', [
-      Validators.pattern(/^[A-Za-z]{3} [A-Za-z]{3} \d{1,2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \(.+\)$/i),
-      Validators.minLength(2)
-    ]),
-    mail: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
-    ]),
-    phone: new FormControl('', [
-      Validators.pattern('^[0-9]+$'),
-      Validators.minLength(5)
-    ]),
-  }
+  formData = this.formService.formUser;
 
 
   constructor(
     public dialogRef: MatDialogRef<DialogUserComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private userServices: FirebaseService,
-    private zipCodeService: ZipCodeService
+    private zipCodeService: ZipCodeService,
+    public formService: FormService
   ) {
     if (!data.settings) this.setNewUser();
     else this.setUserInfos(data.userdata, data.settings);
@@ -153,13 +118,6 @@ export class DialogUserComponent {
   }
 
 
-  getErrorMessage(varForm: FormControl, msgLabel: string) {
-    if (varForm.hasError('required')) return msgLabel + ' is required';
-    if (varForm.hasError('pattern') || varForm.hasError('minlength')) return (msgLabel + ' not valid');
-    return ''
-  }
-
-
   async addUser() {
     this.setUserData();
     this.setLoading();
@@ -198,14 +156,14 @@ export class DialogUserComponent {
 
 
   setUserData() {
-    this.data.firstName = this.getFormData(this.formData.firstName);
-    this.data.lastName = this.getFormData(this.formData.lastName);
-    this.data.street = this.getFormData(this.formData.street);
-    this.data.zipCode = parseInt(this.getFormData(this.formData.zipCode));
-    this.data.city = this.getFormData(this.formData.city);
-    this.data.mail = this.getFormData(this.formData.mail);
-    this.data.birthDate = this.getTimeFromDate(this.getFormData(this.formData.birthDate));
-    this.data.phone = parseInt(this.getFormData(this.formData.phone));
+    this.data.firstName = this.formService.getFormData(this.formData.firstName);
+    this.data.lastName = this.formService.getFormData(this.formData.lastName);
+    this.data.street = this.formService.getFormData(this.formData.street);
+    this.data.zipCode = parseInt(this.formService.getFormData(this.formData.zipCode));
+    this.data.city = this.formService.getFormData(this.formData.city);
+    this.data.mail = this.formService.getFormData(this.formData.mail);
+    this.data.birthDate = this.formService.getTimeFromDate(this.formService.getFormData(this.formData.birthDate));
+    this.data.phone = parseInt(this.formService.getFormData(this.formData.phone));
   }
 
 
@@ -218,18 +176,6 @@ export class DialogUserComponent {
     this.formData.birthDate.reset();
     this.formData.mail.reset();
     this.formData.phone.reset();
-  }
-
-
-  getTimeFromDate(date: Date): number | undefined {
-    if (date) return date.getTime();
-    else return NaN
-  }
-
-
-  getFormData(FormData: FormControl) {
-    if (FormData.status == 'VALID' && FormData.value) return FormData.value;
-    else return NaN
   }
 
 
@@ -247,7 +193,7 @@ export class DialogUserComponent {
 
   checkZipCode() {
     if (this.formData.zipCode.status === 'VALID') {
-      let zip: number = parseInt(this.getFormData(this.formData.zipCode));
+      let zip: number = parseInt(this.formService.getFormData(this.formData.zipCode));
       this.formData.city.enable();
       if (zip != this.serchZipCode) this.fillSelectableCitys(zip);
     }
@@ -262,15 +208,15 @@ export class DialogUserComponent {
     this.formData.city.reset();
     this.serchZipCode = zip;
     this.zipCodeService.getArrayOfCitys(this.serchZipCode)
-    .then((result: string[]) => {
-      this.selectableCitys = result;
-    })
-    .catch((error) => {
-      console.error('Error by filling the selectable Citys:', error);
-    });  
+      .then((result: string[]) => {
+        this.selectableCitys = result;
+      })
+      .catch((error) => {
+        console.error('Error by filling the selectable Citys:', error);
+      });
   }
 
-  resteCitySelection(){
+  resteCitySelection() {
     this.formData.city.reset();
     this.enableAddUser();
   }

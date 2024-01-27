@@ -1,0 +1,18 @@
+<h1 mat-dialog-title>Add new section</h1>
+<div mat-dialog-content>
+    <p>Are you sure to delete <br>
+    <b>{{ data.title }}</b> ?</p>
+</div>
+
+
+<div mat-dialog-actions>
+    <div>
+        <button mat-button (click)="onNoClick()">close</button>
+        <button mat-raised-button color="accent" >add</button>
+    </div>
+</div>
+
+
+@if (loading) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}

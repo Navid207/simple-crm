@@ -1,0 +1,99 @@
+<mat-card>
+  <mat-stepper orientation="vertical" [linear]="isLinear" #stepper>
+    <mat-step [stepControl]="firstFormGroup">
+      <form [formGroup]="firstFormGroup">
+        <ng-template matStepLabel>General Information</ng-template>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Company Name</mat-label>
+          <input matInput placeholder="Company Name" formControlName="firstCtrl" required>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" [color]="'accent'">
+          <mat-label>Select Sector</mat-label>
+          <mat-select [formControl]="formData.city">
+            @for (city of selectableCitys; track $index) {
+              <mat-option value="{{ city }}">{{ city }}</mat-option>
+            }
+            <mat-option (click)="openDialogDelet(user.id,'users', (user.firstName+' '+user.lastName))"></mat-option>> <mat-icon>add</mat-icon> Add new section</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <div>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step [stepControl]="secondFormGroup">
+      <form [formGroup]="secondFormGroup">
+        <ng-template matStepLabel>Fill out your address</ng-template>
+        <mat-form-field>
+          <mat-label>Address</mat-label>
+          <input matInput formControlName="secondCtrl" placeholder="Ex. 1 Main St, New York, NY"
+                 required>
+        </mat-form-field>
+        <div>
+          <button mat-button matStepperPrevious>Back</button>
+          <button mat-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+      <p>You are now done.</p>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button (click)="stepper.reset()">Reset</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+  <!-- <mat-card-title>Add new company</mat-card-title>
+
+  <mat-form-field appearance="outline" [color]="'accent'">
+    <mat-label>Company Name</mat-label>
+    <input matInput placeholder="Company Name" [formControl]="formData.name">
+    @if (formData.name.invalid) {
+    <mat-error>{{this.formService.getErrorMessage(formData.name,'Name')}}</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-card-subtitle>Address</mat-card-subtitle>
+  <div>
+    <mat-form-field appearance="outline" [color]="'accent'">
+      <mat-label>Street</mat-label>
+      <input matInput placeholder="Street" [formControl]="formData.street">
+      @if (formData.street.invalid) {
+      <mat-error>{{this.formService.getErrorMessage(formData.street,'Street')}}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline" [color]="'accent'">
+      <mat-label>Number</mat-label>
+      <input matInput placeholder="Number" [formControl]="formData.no">
+      @if (formData.no.invalid) {
+      <mat-error>{{this.formService.getErrorMessage(formData.no,'No.')}}</mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div class="form-input">
+    <mat-form-field appearance="outline" [color]="'accent'">
+      <mat-label>Zip code</mat-label>
+      <input matInput placeholder="24106" [formControl]="formData.zipCode"> 
+      @if (formData.zipCode.invalid) {
+      <mat-error>{{formService.getErrorMessage(formData.zipCode,'Zip Code')}}</mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field appearance="outline" [color]="'accent'">
+      <mat-label>Select City</mat-label>
+      <mat-select [formControl]="formData.city">
+        @for (city of selectableCitys; track $index) {
+          <mat-option value="{{ city }}">{{ city }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </div> -->
+
+
+
+
+
+</mat-card>

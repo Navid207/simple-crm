@@ -48,3 +48,10 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+
+.fix-bottom-r-corner {
+    position: fixed;
+    bottom: 32px;
+    right: 32px;
+}
