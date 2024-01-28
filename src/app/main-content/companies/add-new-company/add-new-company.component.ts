@@ -4,12 +4,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatExpansionModule} from '@angular/material/expansion';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FormService } from '../../../shared/services/form/form.service';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
+import { MatListModule } from '@angular/material/list';
 import { DialogAddSingle } from '../../../shared/dialogs/dialog-add-single/dialog-add-single.component';
+import { FirebaseService } from '../../../shared/services/firebase/firebase.service';
 
 
 
@@ -26,6 +29,8 @@ import { DialogAddSingle } from '../../../shared/dialogs/dialog-add-single/dialo
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatExpansionModule,
+    MatListModule,
     FormsModule,
     ReactiveFormsModule
   ],
@@ -34,8 +39,12 @@ import { DialogAddSingle } from '../../../shared/dialogs/dialog-add-single/dialo
 })
 export class AddNewCompanyComponent {
 
+  unsubSectors;
+
   formData = this.formService.formCompany;
+  selectableSectors: string[] = [];
   selectableCitys: string[] = [];
+  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
 
   firstFormGroup = this._formBuilder.group({
@@ -49,20 +58,31 @@ export class AddNewCompanyComponent {
   constructor(
     public formService: FormService,
     private _formBuilder: FormBuilder,
+    private FBservices: FirebaseService,
     public dialog: MatDialog
-  ) { }
+  ) {
+    this.unsubSectors = this.FBservices.subSectors();
+  }
 
+  ngOnDestroy() {
+    this.unsubSectors();
+  }
 
   openDialogAddSector(): void {
     const form = this.formData.sector;
     const element = 'sector'
-    let id =''
-    const dialogRef = this.dialog.open(DialogAddSingle, {
-      data: { form, element, id},
-    });
+    let id = ''
+    const dialogRef = this.dialog.open
+      (DialogAddSingle, { data: { form, element, id } });
     dialogRef.afterClosed().subscribe(result => {
-      if (result) console.log(result)
+      if (!result) return
+      if (result.name && result.name.length >= 2) {
+        this.formData.sector.setValue(result.name)
+      }
     });
   }
 
+  getSectors(): string[] {
+    return this.FBservices.sectors
+  }
 }

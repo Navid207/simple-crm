@@ -70,9 +70,8 @@ export class DialogAddSingle {
     this.loading = true;
     let object = this.getObject();
     this.form.disable();
-    let id
     this.allowAddBtn = false;
-    id = await this.firebaseServices.addNewElement(this.element, object );
-    this.dialogRef.close(id);
+    let id = await this.firebaseServices.addNewElement(this.element, object );
+    this.dialogRef.close(object);
   }
 }

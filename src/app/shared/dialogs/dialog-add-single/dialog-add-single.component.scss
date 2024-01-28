@@ -1,0 +1,13 @@
+@import './../../../../styles.scss';
+
+.form-area {
+    padding-top: 2px;
+    padding-bottom: 0;
+}
+
+
+.btn-area {
+    @include dFlex($jc: space-between);
+    padding-inline: 16px;
+    width: 100%;
+}

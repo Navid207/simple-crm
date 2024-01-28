@@ -19,6 +19,8 @@ export class FirebaseService {
     birthDate: NaN,
   };
 
+  sectors!: string[]
+
   firestore: Firestore = inject(Firestore);
 
   constructor() { }
@@ -32,6 +34,19 @@ export class FirebaseService {
       this.users = [];
       users.docs.forEach(element => { this.users.push(this.fillUserData(element)) })
     })
+  }
+
+
+  subSectors() {
+    let q = query(this.getCollectionRef("sector"), orderBy('name'));
+    return onSnapshot(q, (sectors) => {
+      this.sectors = [];
+      sectors.docs.forEach(element => { this.pushToSector(element) })
+    })
+  }
+
+  pushToSector(doc: any) {
+    if (doc.data().name) this.sectors.push(doc.data().name)
   }
 
 
@@ -56,7 +71,7 @@ export class FirebaseService {
   }
 
 
-  async addNewElement(collRef:string, item: any) {
+  async addNewElement(collRef: string, item: any) {
     let userRef = await addDoc(this.getCollectionRef(collRef), item);
     return userRef.id;
   }
