@@ -4,10 +4,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatCardModule } from '@angular/material/card';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { FormService } from '../../../shared/services/form/form.service';
 import { MatIcon } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogAddSingle } from '../../../shared/dialogs/dialog-add-single/dialog-add-single.component';
 
 
 
@@ -46,15 +48,21 @@ export class AddNewCompanyComponent {
 
   constructor(
     public formService: FormService,
-    private _formBuilder: FormBuilder
+    private _formBuilder: FormBuilder,
+    public dialog: MatDialog
   ) { }
 
 
-  openDialogAddSUser(): void {
-    const dialogRef = this.dialog.open(DialogUserComponent, {
-      data: { userdata, settings },
+  openDialogAddSector(): void {
+    const form = this.formData.sector;
+    const element = 'sector'
+    let id =''
+    const dialogRef = this.dialog.open(DialogAddSingle, {
+      data: { form, element, id},
     });
-    dialogRef.afterClosed().subscribe(result => { });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) console.log(result)
+    });
   }
 
 }

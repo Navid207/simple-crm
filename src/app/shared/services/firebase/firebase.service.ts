@@ -56,8 +56,8 @@ export class FirebaseService {
   }
 
 
-  async addNewUser(item: any) {
-    let userRef = await addDoc(this.getCollectionRef("users"), item);
+  async addNewElement(collRef:string, item: any) {
+    let userRef = await addDoc(this.getCollectionRef(collRef), item);
     return userRef.id;
   }
 

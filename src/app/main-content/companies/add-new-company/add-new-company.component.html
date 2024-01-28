@@ -15,7 +15,7 @@
             @for (city of selectableCitys; track $index) {
               <mat-option value="{{ city }}">{{ city }}</mat-option>
             }
-            <mat-option (click)="openDialogDelet(user.id,'users', (user.firstName+' '+user.lastName))"></mat-option>> <mat-icon>add</mat-icon> Add new section</mat-option>
+            <mat-option (click)="openDialogAddSector()"> <mat-icon>add</mat-icon> Add new section</mat-option>
           </mat-select>
         </mat-form-field>
 

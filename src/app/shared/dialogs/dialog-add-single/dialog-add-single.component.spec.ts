@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DialogSectionComponent } from './dialog-section.component';
+import { DialogAddSingle } from './dialog-add-single.component';
 
 describe('DialogSectionComponent', () => {
-  let component: DialogSectionComponent;
-  let fixture: ComponentFixture<DialogSectionComponent>;
+  let component: DialogAddSingle;
+  let fixture: ComponentFixture<DialogAddSingle>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DialogSectionComponent]
+      imports: [DialogAddSingle]
     })
     .compileComponents();
-    
-    fixture = TestBed.createComponent(DialogSectionComponent);
+    #
+    fixture = TestBed.createComponent(DialogAddSingle);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

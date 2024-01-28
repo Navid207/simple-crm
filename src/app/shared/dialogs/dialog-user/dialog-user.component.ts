@@ -121,7 +121,7 @@ export class DialogUserComponent {
   async addUser() {
     this.setUserData();
     this.setLoading();
-    await this.userServices.addNewUser(this.data);
+    await this.userServices.addNewElement('users', this.data);
     this.resetInputs();
     this.dialogRef.close();
   }
