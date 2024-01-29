@@ -13,6 +13,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatListModule } from '@angular/material/list';
 import { DialogAddSingle } from '../../../shared/dialogs/dialog-add-single/dialog-add-single.component';
 import { FirebaseService } from '../../../shared/services/firebase/firebase.service';
+import { UsersSelectionListComponent } from '../../../shared/components/users-selection-list/users-selection-list.component';
+import { FormSelectorComponent } from '../../../shared/components/form-selector/form-selector.component';
+import { DialogCostumerComponent } from '../../../shared/dialogs/dialog-costumer/dialog-costumer.component';
 
 
 
@@ -32,7 +35,9 @@ import { FirebaseService } from '../../../shared/services/firebase/firebase.serv
     MatExpansionModule,
     MatListModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FormSelectorComponent,
+    UsersSelectionListComponent
   ],
   templateUrl: './add-new-company.component.html',
   styleUrl: './add-new-company.component.scss'
@@ -44,7 +49,7 @@ export class AddNewCompanyComponent {
   formData = this.formService.formCompany;
   selectableSectors: string[] = [];
   selectableCitys: string[] = [];
-  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+  
 
 
   firstFormGroup = this._formBuilder.group({
@@ -80,6 +85,13 @@ export class AddNewCompanyComponent {
         this.formData.sector.setValue(result.name)
       }
     });
+  }
+
+  openDialogNewContact(): void {
+    const dialogRef = this.dialog.open(DialogCostumerComponent, {
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
 
   getSectors(): string[] {

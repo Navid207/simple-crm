@@ -81,7 +81,32 @@ export class FormService {
     ]),
 
   }
-  
+
+  formContact = {
+    firstName: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-zA-ZäöüÄÖÜß\\s]*$'),
+      Validators.minLength(2)
+    ]),
+    lastName: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-zA-ZäöüÄÖÜß\\s]*$'),
+      Validators.minLength(2)
+    ]),
+    department: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2)
+    ]),
+    mail: new FormControl('', [
+      Validators.required,
+      Validators.pattern('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
+    ]),
+    phone: new FormControl('', [
+      Validators.pattern('^[0-9]+$'),
+      Validators.minLength(5)
+    ]),
+  }
+
   getErrorMessage(varForm: FormControl, msgLabel: string) {
     if (varForm.hasError('required')) return msgLabel + ' is required';
     if (varForm.hasError('pattern') || varForm.hasError('minlength')) return (msgLabel + ' not valid');

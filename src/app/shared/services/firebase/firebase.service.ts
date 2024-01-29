@@ -19,7 +19,8 @@ export class FirebaseService {
     birthDate: NaN,
   };
 
-  sectors!: string[]
+  sectors!: string[];
+  departments!: string[];
 
   firestore: Firestore = inject(Firestore);
 
@@ -41,12 +42,23 @@ export class FirebaseService {
     let q = query(this.getCollectionRef("sector"), orderBy('name'));
     return onSnapshot(q, (sectors) => {
       this.sectors = [];
-      sectors.docs.forEach(element => { this.pushToSector(element) })
+      sectors.docs.forEach(element => { this.pushToName(element, 'sector') })
     })
   }
 
-  pushToSector(doc: any) {
-    if (doc.data().name) this.sectors.push(doc.data().name)
+
+  subDepartments() {
+    let q = query(this.getCollectionRef("department"), orderBy('name'));
+    return onSnapshot(q, (departments) => {
+      this.departments = [];
+      departments.docs.forEach(element => { this.pushToName(element, 'department') })
+    })
+  }
+  
+
+  pushToName(doc: any, collId: 'sector' | 'department') {
+    if (doc.data().name && collId === 'sector') this.sectors.push(doc.data().name)
+    else if (doc.data().name && collId === 'department') this.departments.push(doc.data().name)
   }
 
 

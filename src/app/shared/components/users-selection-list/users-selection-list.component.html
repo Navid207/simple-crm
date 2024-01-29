@@ -1,0 +1,5 @@
+<mat-selection-list>
+    @for (user of getUsers(); track $index) {
+    <mat-list-option (click)="toggleIdToSelectedUsesIds(user.id)">{{ user.firstName }} {{ user.lastName }}</mat-list-option>
+    }
+</mat-selection-list>

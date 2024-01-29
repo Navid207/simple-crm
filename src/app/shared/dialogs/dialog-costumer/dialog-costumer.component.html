@@ -1,0 +1,54 @@
+<h1 mat-dialog-title>{{ dialogTitle }}</h1>
+
+
+<div class="form-input">
+  <mat-form-field appearance="outline" [color]="'accent'">
+    <mat-label>Fist Name</mat-label>
+    <input matInput placeholder="Fist Name" [formControl]="formData.firstName" (ngModelChange)="enableAddUser()">
+    @if (formData.firstName.invalid) {
+    <mat-error>{{formService.getErrorMessage(formData.firstName,'Name')}}</mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field appearance="outline" [color]="'accent'">
+    <mat-label>Last Name</mat-label>
+    <input matInput placeholder="Last Name" [formControl]="formData.lastName" (ngModelChange)="enableAddUser()">
+    @if (formData.lastName.invalid) {
+    <mat-error>{{formService.getErrorMessage(formData.lastName,'Name')}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+
+<app-form-selector [form]="'department'" (valueOut)="onFormValueChange($event)"></app-form-selector>
+
+<div class="form-input">
+  <mat-form-field appearance="outline" [color]="'accent'">
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="name@example.com" [formControl]="formData.mail" (ngModelChange)="enableAddUser()">
+    @if (formData.mail.invalid) {
+    <mat-error>{{formService.getErrorMessage(formData.mail,'Mail')}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+<div class="form-input">
+  <mat-form-field appearance="outline" [color]="'accent'">
+    <mat-label>Phone</mat-label>
+    <input matInput placeholder="0123456789" [formControl]="formData.phone">
+    @if (formData.phone.invalid) {
+    <mat-error>{{formService.getErrorMessage(formData.phone,'Number')}}</mat-error>
+    }
+  </mat-form-field>
+</div>
+
+
+<div class="form-btn" mat-dialog-actions>
+  <button mat-button [disabled]="loading" (click)="onNoClick()">close</button>
+  @if (newUser) {
+    <button [disabled]="!allowAddBtn" mat-raised-button color="accent" (click)="addContact()">add</button>
+  } @else{
+    <button [disabled]="!allowAddBtn" mat-raised-button color="accent" (click)="saveUserData()">save</button>
+  }
+  
+</div>
+@if (loading) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}

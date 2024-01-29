@@ -5,21 +5,11 @@
   <div class="form-line">
     <mat-form-field appearance="outline" [color]="'accent'">
       <mat-label>Company Name</mat-label>
-      <input matInput placeholder="Company Name" formControlName="firstCtrl" required>
+      <input matInput placeholder="Company Name" [formControl]="formData.name">
     </mat-form-field>
 
-    <mat-form-field appearance="outline" [color]="'accent'">
-      <mat-label>Select Sector</mat-label>
-      <mat-select [formControl]="formData.sector">
-        @for (sector of getSectors(); track $index) {
-        <mat-option value="{{ sector }}">{{ sector }}</mat-option>
-        }
-        <mat-option (click)="openDialogAddSector()">
-          <button mat-raised-button color="accent"> <mat-icon>add</mat-icon> Add new sector</button>
-        </mat-option>
+    <app-form-selector [form]="'sector'"> </app-form-selector>
 
-      </mat-select>
-    </mat-form-field>
   </div>
 
   <mat-card-subtitle>Address</mat-card-subtitle>
@@ -66,15 +56,15 @@
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-description>
-      <mat-icon>account_circle</mat-icon> Reference persons
+        <mat-icon>account_circle</mat-icon> Reference persons
       </mat-panel-description>
     </mat-expansion-panel-header>
 
     <table class="table-user">
       <tr>
-          <th>Name</th>
-          <th>Field</th>
-          <th>E-Mail</th>
+        <th>Name</th>
+        <th>Field</th>
+        <th>E-Mail</th>
       </tr>
       <tr>
         <th>Max Musterman</th>
@@ -89,8 +79,12 @@
 
     </table>
 
+    
+    <button mat-raised-button color="accent" (click)="openDialogNewContact()"> <mat-icon>add</mat-icon> Add new Person</button>
+    
+
   </mat-expansion-panel>
-  <p>Assigned to: {{shoes.selectedOptions.selected.length}} Users</p>
+  <!-- <p>Assigned to: {{shoes.selectedOptions.selected.length}} Users</p> -->
 
 
   <mat-card-subtitle>Assigned</mat-card-subtitle>
@@ -101,13 +95,10 @@
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-    <mat-selection-list #shoes>
-      @for (shoe of typesOfShoes; track shoe) {
-      <mat-list-option>{{shoe}}</mat-list-option>
-      }
-    </mat-selection-list>
+     <app-users-selection-list #user></app-users-selection-list>
+
 
   </mat-expansion-panel>
-  <p>Assigned to: {{shoes.selectedOptions.selected.length}} Users</p>
+  <p>Assigned to: {{ user.selectedUserIds.length }} Users</p>
 
 </mat-card>
