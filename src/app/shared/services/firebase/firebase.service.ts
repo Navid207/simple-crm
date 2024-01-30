@@ -19,8 +19,19 @@ export class FirebaseService {
     phone: NaN,
     birthDate: NaN,
   };
-  
+
   companies!: CompanyData[];
+  company: CompanyData = {
+    name: '',
+    street: '',
+    no: '',
+    zipCode: NaN,
+    city: '',
+    country: '',
+    sector: '',
+    contacts: [],
+    assigned: []
+  }
 
   sectors!: string[];
   departments!: string[];
@@ -66,7 +77,7 @@ export class FirebaseService {
       departments.docs.forEach(element => { this.pushToName(element, 'department') })
     })
   }
-  
+
 
   pushToName(doc: any, collId: 'sector' | 'department') {
     if (doc.data().name && collId === 'sector') this.sectors.push(doc.data().name)
@@ -122,6 +133,14 @@ export class FirebaseService {
     let ref = this.getSingleDocRef('users', id);
     return onSnapshot(ref, (user) => {
       this.user = this.fillUserData(user);
+    })
+  }
+
+
+  subCompany(id: string) {
+    let ref = this.getSingleDocRef('companies', id);
+    return onSnapshot(ref, (company) => {
+      this.company = this.fillCompanyData(company);
     })
   }
 

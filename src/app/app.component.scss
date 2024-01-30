@@ -1,3 +1,5 @@
+@import './../styles.scss';
+
 
 mat-drawer-container {
     min-height: 100vh;
@@ -15,3 +17,81 @@ main{
     padding-top: 32px;
     padding-inline: 38px;
 }
+
+.pin-top-right-corner{
+    position: absolute;
+    top: 8px;
+    right: 8px;
+}
+
+.pin-right{
+    position: absolute;
+    right: 8px;
+}
+
+.info-table {
+    @include dFlex($fd: column);
+    border-collapse: collapse;
+    overflow: hidden;
+
+    >tr {
+        display: flex;
+        width: 100%;
+        border-bottom: 2px solid $lgWhite;
+        position: relative;
+
+        &:first-child {
+            border-bottom: 4px solid $lgWhite;
+        }
+
+        &:last-child {
+            border-bottom: unset;
+        }
+
+        &:not(:first-child) {
+
+            &:hover {
+                cursor: pointer;
+                background-color: $lgBlack;
+
+                .pin-top-right-corner {
+                    display: block;
+                }
+
+            }
+        }
+
+        >th {
+            @include dFlex($jc: unset);
+            text-align: start;
+            width: 100%;
+            height: 50px;
+            padding-left: 12px;
+
+            &:last-child {
+                padding-right: 12px;
+            }
+        }
+
+        >td {
+            @include dFlex($jc: unset);
+            height: 48px;
+            width: 100%;
+            padding-left: 12px;
+
+
+            &:first-child {
+                padding-left: 12px;
+            }
+
+            &:last-child {
+                padding-right: 12px;
+            }
+
+        }
+    }
+
+
+
+}
+

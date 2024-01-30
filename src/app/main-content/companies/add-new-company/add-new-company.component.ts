@@ -203,8 +203,8 @@ export class AddNewCompanyComponent {
     this.company.street = this.formData.street.value || '';
     this.company.no = this.formData.no.value || '';
     this.company.zipCode = parseInt(this.formData.zipCode.value || '');
-    this.company.city = this.splitFormDataCity()[0]
-    this.company.country = this.splitFormDataCity()[1]
+    this.company.city = this.splitFormDataCity()[1]
+    this.company.country = this.splitFormDataCity()[0]
     this.company.contacts = this.contactPersons;
     this.company.assigned = this.userElement.selectedUserIds
   }

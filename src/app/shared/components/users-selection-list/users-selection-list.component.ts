@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { AfterViewInit, Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { FirebaseService } from '../../services/firebase/firebase.service';
+import { BooleanInput } from '@angular/cdk/coercion';
 
 
 
@@ -15,8 +16,9 @@ import { FirebaseService } from '../../services/firebase/firebase.service';
   templateUrl: './users-selection-list.component.html',
   styleUrl: './users-selection-list.component.scss'
 })
-export class UsersSelectionListComponent {
+export class UsersSelectionListComponent implements OnChanges {
 
+  @Input() selectetIdList: string[] | undefined;
   selectedUserIds: string[] = [];
 
   unsubUsers;
@@ -27,6 +29,12 @@ export class UsersSelectionListComponent {
 
   ngOnDestroy() {
     this.unsubUsers();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes) {
+      if (this.selectetIdList) this.selectedUserIds = this.selectetIdList;
+    }
   }
 
   getUsers() {
@@ -41,5 +49,14 @@ export class UsersSelectionListComponent {
       this.selectedUserIds.push(id)
     } 
   }
+
+  setSelected(id: string | undefined):BooleanInput {
+    if (!id)return false
+    let i = this.selectedUserIds.indexOf(id);
+    if (i>=0) return true
+    else return false
+  }
+
+  
 
 }

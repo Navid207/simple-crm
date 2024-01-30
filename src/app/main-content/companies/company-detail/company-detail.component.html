@@ -1,0 +1,79 @@
+@if ( getCompany().name != '') {
+<mat-card class="head-card">
+  <button mat-icon-button [matMenuTriggerFor]="generlMenu" class="pin-top-right-corner">
+    <mat-icon>more_vertic</mat-icon>
+  </button>
+  <mat-menu #generlMenu="matMenu">
+    <button mat-menu-item>Edit <mat-icon>edit</mat-icon></button>
+  </mat-menu>
+
+  <img src="./../../../assets/img/user.svg" alt="">
+  <div class="info">
+    <mat-card-title>{{ getCompany().name }}</mat-card-title>
+  </div>
+</mat-card>
+
+<mat-card class="address-card">
+  <button mat-icon-button [matMenuTriggerFor]="addressMenu" class="pin-top-right-corner">
+    <mat-icon>more_vertic</mat-icon>
+  </button>
+  <mat-menu #addressMenu="matMenu">
+    <button mat-menu-item>Edit <mat-icon>edit</mat-icon></button>
+  </mat-menu>
+
+  <mat-card-title>Address</mat-card-title>
+  <mat-card-content>
+    {{ getCompany().street }}<br>
+    {{ getCompany().country }} {{ getCompany().zipCode }} {{ getCompany().city }}
+  </mat-card-content>
+</mat-card>
+
+<mat-card class="address-card">
+  <mat-card-title>Contacts</mat-card-title>
+  <table class="info-table">
+    <tr>
+      <th>Name</th>
+      <th>Department</th>
+      <th>E-Mail</th>
+      <th>Phone</th>
+    </tr>
+
+    @for (contact of getCompany().contacts; track $index) {
+    <tr>
+      <td>{{ contact.firstName }} {{ contact.lastName }}</td>
+      <td>{{ contact.department }}</td>
+      <td>{{ contact.mail }}</td>
+      <td>{{ contact.phone }}</td>
+      <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-right">
+        <mat-icon>more_vertic</mat-icon>
+      </button>
+      <mat-menu #generlMenu$index="matMenu">
+        <button mat-menu-item>Delete
+          <mat-icon>delete</mat-icon></button>
+      </mat-menu>
+    </tr>
+    }
+
+
+  </table>
+</mat-card>
+
+<mat-card class="address-card">
+  <mat-card-title>Assignments</mat-card-title>
+  <!-- [disabled]="loadingAnimation" [expanded]="!closeAssignedTo" -->
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-description>
+        <mat-icon>perm_identity</mat-icon>
+         @if(user){
+          <span>Assigned to: {{ user.selectedUserIds.length }}</span>
+         }        
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+
+    <app-users-selection-list #user [selectetIdList]="getCompany().assigned"></app-users-selection-list>
+
+
+  </mat-expansion-panel>
+</mat-card>
+}

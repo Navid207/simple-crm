@@ -1,0 +1,49 @@
+@import './../../../app.component.scss';
+
+.head-card {
+    @include dFlex($gap: 50px, $jc: flex-start, $ai: flex-end);
+    background-color: #b300ff;
+    min-height: 200px;
+    padding: 24px 38px;
+
+    img {
+        height: 100px;
+        width: 100px;
+        border-radius: 100%;
+        object-fit: cover;
+    }
+
+    .info {
+        @include dFlex($gap: 4px, $fd: column, $ai: flex-start);
+
+        mat-card-title {
+            padding-bottom: 12px;
+        }
+
+        a {
+            @include dFlex($gap: 12px, $jc: flex-start);
+            text-decoration: none;
+            color: white;
+
+            &:hover {
+                cursor: pointer;
+                background-color: $lgWhite;
+                color: white;
+            }
+        }
+
+    }
+}
+
+.address-card {
+    margin-top: 32px;
+
+    mat-card-title {
+        padding: 16px;
+    }
+}
+
+
+.mat-mdc-menu-item {
+    min-height: 26px;
+}

@@ -13,9 +13,9 @@
       </tr>
       @for (company of getCompanies(); track $index) {
       <tr> 
-          <td [routerLink]="'/user/'+ company.id">{{ company.name }}</td>
-          <td [routerLink]="'/user/'+ company.id"> {{ company.sector }}</td>
-          <td [routerLink]="'/user/'+ company.id">{{ company.city }}</td>
+          <td [routerLink]="'/company/'+ company.id">{{ company.name }}</td>
+          <td [routerLink]="'/company/'+ company.id"> {{ company.sector }}</td>
+          <td [routerLink]="'/company/'+ company.id">{{ company.city }}</td>
           <!-- <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-top-right-corner" (click)="selectRow($index)">
               <mat-icon>more_vertic</mat-icon>
           </button>
