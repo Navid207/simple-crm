@@ -1,22 +1,22 @@
 <mat-card>
   <table class="table-user">
       <tr>
-          <th>Name
-              <!-- @if(orderBy == 'firstName'){<mat-icon>expand_more</mat-icon>} -->
+          <th (click)="changeOrder('name')">Name
+              @if(orderBy == 'name'){<mat-icon>expand_more</mat-icon>}
           </th>
-          <th>Address
-              <!-- @if(orderBy == 'mail'){<mat-icon>expand_more</mat-icon>} -->
+          <th (click)="changeOrder('sector')">Sector
+              @if(orderBy == 'sector'){<mat-icon>expand_more</mat-icon>}
           </th>
-          <th>City
-              <!-- @if(orderBy == 'city'){<mat-icon>expand_more</mat-icon>} -->
+          <th (click)="changeOrder('city')">City
+              @if(orderBy == 'city'){<mat-icon>expand_more</mat-icon>}
           </th>
       </tr>
-      <!-- @for (user of getUsers(); track $index) {
-      <tr [class.selectedRowIndex]="selectedRowIndex === $index"> 
-          <td [routerLink]="'/user/'+ user.id">{{ user.firstName }} {{user.lastName}}</td>
-          <td [routerLink]="'/user/'+ user.id"> {{ user.mail }}</td>
-          <td [routerLink]="'/user/'+ user.id">{{ user.city }}</td>
-          <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-top-right-corner" (click)="selectRow($index)">
+      @for (company of getCompanies(); track $index) {
+      <tr> 
+          <td [routerLink]="'/user/'+ company.id">{{ company.name }}</td>
+          <td [routerLink]="'/user/'+ company.id"> {{ company.sector }}</td>
+          <td [routerLink]="'/user/'+ company.id">{{ company.city }}</td>
+          <!-- <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-top-right-corner" (click)="selectRow($index)">
               <mat-icon>more_vertic</mat-icon>
           </button>
           <mat-menu #generlMenu$index="matMenu" (close)="selectRow(-1)">
@@ -24,9 +24,9 @@
               <button mat-menu-item
                   (click)="openDialogDelet(user.id,'users', (user.firstName+' '+user.lastName))">Delete
                   <mat-icon>delete</mat-icon></button>
-          </mat-menu>
+          </mat-menu> -->
       </tr>
-      } -->
+      }
   </table>
 </mat-card>
 

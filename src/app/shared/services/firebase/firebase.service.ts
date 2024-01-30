@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { UserData } from '../../interfaces/user-data';
+import { CompanyData } from '../../interfaces/company-data';
 
 
 @Injectable({
@@ -18,6 +19,8 @@ export class FirebaseService {
     phone: NaN,
     birthDate: NaN,
   };
+  
+  companies!: CompanyData[];
 
   sectors!: string[];
   departments!: string[];
@@ -37,6 +40,15 @@ export class FirebaseService {
     })
   }
 
+  subCompanies(order: string | undefined) {
+    let q;
+    if (order) q = query(this.getCollectionRef("companies"), orderBy(order));
+    else q = query(this.getCollectionRef("companies"))
+    return onSnapshot(q, (companies) => {
+      this.companies = [];
+      companies.docs.forEach(element => { this.companies.push(this.fillCompanyData(element)) })
+    })
+  }
 
   subSectors() {
     let q = query(this.getCollectionRef("sector"), orderBy('name'));
@@ -80,6 +92,23 @@ export class FirebaseService {
       birthDate: docs.data().birthDate || NaN,
     }
     return user
+  }
+
+
+  fillCompanyData(docs: any): CompanyData {
+    let company: CompanyData = {
+      id: docs.id,
+      name: docs.data().name || '',
+      sector: docs.data().sector || '',
+      street: docs.data().street || '',
+      no: docs.data().no || NaN,
+      zipCode: docs.data().zipCode || '',
+      city: docs.data().city || '',
+      country: docs.data().country || '',
+      contacts: docs.data().contacts || [],
+      assigned: docs.data().assigned || [],
+    }
+    return company
   }
 
 
