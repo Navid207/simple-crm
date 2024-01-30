@@ -1,14 +1,15 @@
-import { UserData } from "./user-data";
+import { ContactData } from "./contact-data";
 
 export interface CompanyData {
     id?: string,
     name: string,
     street: string,
     no: string,
+    zipCode: number;
     city: string,
     country: string,
-    field: string,
+    sector: string,
     link?: string,
-    users?: UserData[],
+    contacts?: ContactData[],
     assigned?: string[];
 }

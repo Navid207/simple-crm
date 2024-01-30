@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -25,9 +25,10 @@ import { Unsubscribe } from '@angular/fire/firestore';
   templateUrl: './form-selector.component.html',
   styleUrl: './form-selector.component.scss'
 })
-export class FormSelectorComponent implements OnInit {
+export class FormSelectorComponent implements OnInit, OnChanges {
 
   @Input() form!: 'sector' | 'department';
+  @Input() disable = false;
   @Output() valueOut = new EventEmitter<string>();
 
   unsubElement!: Unsubscribe;
@@ -45,6 +46,13 @@ export class FormSelectorComponent implements OnInit {
   ngOnInit() {
     if (this.form === 'sector') this.unsubElement = this.FBservices.subSectors();
     else this.unsubElement = this.FBservices.subDepartments();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes) {
+      if (!this.disable) this.formData.enable();
+      else  this.formData.disable();
+    }
   }
 
   setValue(){

@@ -104,14 +104,14 @@ export class FirebaseService {
 
   async updateUserData(user: UserData) {
     if (!user.id) return
-    let json = this.getCleanJson(user);
+    let json = this.getCleanUserJson(user);
     await updateDoc(this.getSingleDocRef('users', user.id), json).catch(
       (err) => { console.error(err) }
     ).then();
   }
 
 
-  getCleanJson(user: UserData) {
+  getCleanUserJson(user: UserData) {
     return {
       firstName: user.firstName,
       lastName: user.lastName,

@@ -1,28 +1,76 @@
 @import './../../../../styles.scss';
 
 
-mat-card{
+mat-card {
     padding: 24px;
+    margin-bottom: 32px;
 }
 
-.form-line{
+mat-card-title {
+    padding-bottom: 12px;
+}
+
+mat-card-subtitle {
+    font-size: 16px;
+}
+
+mat-expansion-panel {
+    margin-top: 12px;
+    margin-bottom: 22px;
+
+    >mat-expansion-panel-header {
+        padding-left: 12px;
+    }
+}
+
+mat-panel-description {
+    >mat-icon {
+        margin-right: 12px;
+    }
+}
+
+.form-line {
     padding-top: 12px;
 
-    mat-form-field{
+    mat-form-field {
         width: 60%;
 
-        &:last-of-type{
+        &:last-child {
             margin-left: 5%;
             width: 35%;
         }
     }
-   
+
+    app-form-selector {
+        display: inline-flex;
+        margin-left: 5%;
+        width: 35%;
+    }
+
+}
+
+.form-input {
+    padding-top: 12px;
+
+    mat-form-field {
+        width: 35%;
+
+        &:last-child {
+            margin-left: 5%;
+            width: 60%;
+        }
+    }
+}
+
+.contact-headlinie {
+    @include dFlex($jc: space-between);
 }
 
 .table-user {
     @include dFlex($fd: column);
-    border-collapse: collapse;    
+    border-collapse: collapse;
     overflow: hidden;
+    margin-inline: -24px;
 
     >tr {
         display: flex;
@@ -38,9 +86,9 @@ mat-card{
             border-bottom: unset;
         }
 
-        &:not(:first-child){
+        &:not(:first-child) {
 
-            &:hover{
+            &:hover {
                 cursor: pointer;
                 background-color: $lgBlack;
 
@@ -55,13 +103,8 @@ mat-card{
             @include dFlex($jc: unset);
             text-align: start;
             width: 100%;
-            height: 50px;  
-            padding-left: 12px;   
-
-            &:hover{
-                cursor: pointer;
-                background-color: $lgBlack;
-            }
+            height: 50px;
+            padding-left: 12px;
 
             &:last-child {
                 padding-right: 12px;
@@ -84,10 +127,22 @@ mat-card{
         }
     }
 
-    .a-bottom-r-corner{
+    .a-bottom-r-corner {
         position: absolute;
         bottom: 0px;
         right: 0px;
     }
 
+}
+
+mat-spinner {
+    position: absolute;
+    top: calc(50% - 50px);
+    left: calc(50% - 50px);
+}
+
+.add-company-btn {
+    >button {
+        width: 100%;
+    }
 }

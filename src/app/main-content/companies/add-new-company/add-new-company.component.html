@@ -2,13 +2,15 @@
 
   <mat-card-title>Add new company</mat-card-title>
 
+  <mat-card-subtitle>General informations</mat-card-subtitle>
   <div class="form-line">
     <mat-form-field appearance="outline" [color]="'accent'">
       <mat-label>Company Name</mat-label>
-      <input matInput placeholder="Company Name" [formControl]="formData.name">
+      <input matInput placeholder="Company Name" [formControl]="formData.name" (ngModelChange)="enableAddCompany()">
     </mat-form-field>
 
-    <app-form-selector [form]="'sector'"> </app-form-selector>
+    <app-form-selector [disable]="loadingAnimation" [form]="'sector'" (valueOut)="onFormValueChange($event)">
+    </app-form-selector>
 
   </div>
 
@@ -32,7 +34,8 @@
   <div class="form-input">
     <mat-form-field appearance="outline" [color]="'accent'">
       <mat-label>Zip code</mat-label>
-      <input matInput placeholder="24106" [formControl]="formData.zipCode">
+      <input matInput placeholder="24106" [formControl]="formData.zipCode" (ngModelChange)="resteCitySelection()"
+        (blur)="checkZipCode()">
       @if (formData.zipCode.invalid) {
       <mat-error>{{formService.getErrorMessage(formData.zipCode,'Zip Code')}}</mat-error>
       }
@@ -41,64 +44,79 @@
       <mat-label>Select City</mat-label>
       <mat-select [formControl]="formData.city">
         @for (city of selectableCitys; track $index) {
-        <mat-option value="{{ city }}">{{ city }}</mat-option>
+        <mat-option value="{{ city }}" (click)="enableAddCompany()">{{ city }}</mat-option>
         }
       </mat-select>
-    </mat-form-field>
-    <mat-form-field appearance="outline" [color]="'accent'">
-      <mat-label>Country</mat-label>
-      <input matInput placeholder="Country" [formControl]="formData.country" [disabled]=" true">
     </mat-form-field>
   </div>
 
 
-  <mat-card-subtitle>Contact</mat-card-subtitle>
-  <mat-expansion-panel>
+
+
+  <div class="contact-headlinie">
+    <mat-card-subtitle>Contact</mat-card-subtitle>
+    <button mat-raised-button color="accent" (click)="openDialogNewContact()">
+      <mat-icon>add</mat-icon> Add new contact</button>
+  </div>
+
+  <mat-expansion-panel [disabled]="loadingAnimation || contactPersons.length <= 0 " [expanded]="!closeContacts"
+    matTooltip="{{tooltipContacts()}}">
     <mat-expansion-panel-header>
       <mat-panel-description>
-        <mat-icon>account_circle</mat-icon> Reference persons
+        <mat-icon>contacts</mat-icon>
+        <span>Contacts: {{contactPersons.length}}</span>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
     <table class="table-user">
       <tr>
         <th>Name</th>
-        <th>Field</th>
+        <th>Department</th>
         <th>E-Mail</th>
       </tr>
+
+      @for (contact of contactPersons; track $index) {
       <tr>
-        <th>Max Musterman</th>
-        <th>Boss</th>
-        <th>masdm.com</th>
+        <td>{{ contact.firstName }} {{ contact.lastName }}</td>
+        <td>{{ contact.department }}</td>
+        <td>{{ contact.mail }}</td>
+        <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-top-right-corner">
+          <mat-icon>more_vertic</mat-icon>
+        </button>
+        <mat-menu #generlMenu$index="matMenu">
+          <button mat-menu-item (click)="deletContact($index)">Delete
+            <mat-icon>delete</mat-icon></button>
+        </mat-menu>
       </tr>
-      <tr>
-        <th>Max Musterman</th>
-        <th>Boss</th>
-        <th>masdm.com</th>
-      </tr>
+      }
+
 
     </table>
 
-    
-    <button mat-raised-button color="accent" (click)="openDialogNewContact()"> <mat-icon>add</mat-icon> Add new Person</button>
-    
-
   </mat-expansion-panel>
-  <!-- <p>Assigned to: {{shoes.selectedOptions.selected.length}} Users</p> -->
-
 
   <mat-card-subtitle>Assigned</mat-card-subtitle>
-  <mat-expansion-panel>
+
+
+  <mat-expansion-panel [disabled]="loadingAnimation" [expanded]="!closeAssignedTo">
     <mat-expansion-panel-header>
       <mat-panel-description>
-        select user <mat-icon>account_circle</mat-icon>
+        <mat-icon>perm_identity</mat-icon>
+        <span>Assigned to: {{ user.selectedUserIds.length }}</span>
       </mat-panel-description>
     </mat-expansion-panel-header>
 
-     <app-users-selection-list #user></app-users-selection-list>
+    <app-users-selection-list #user></app-users-selection-list>
 
 
   </mat-expansion-panel>
-  <p>Assigned to: {{ user.selectedUserIds.length }} Users</p>
+
+  <div matTooltip="{{tooltipAddBtn()}}" class="add-company-btn">
+    <button [disabled]="!allowAddBtn" mat-raised-button color="accent" (click)="addCompany()">add</button>
+  </div>
+
+  @if (loadingAnimation) {
+  <mat-spinner></mat-spinner>
+  }
 
 </mat-card>

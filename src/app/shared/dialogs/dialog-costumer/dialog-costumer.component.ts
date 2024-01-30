@@ -1,5 +1,4 @@
-import { Component, Inject, ViewChild } from '@angular/core';
-import { UserData } from '../../interfaces/user-data';
+import { Component, Inject } from '@angular/core';
 import {
   MAT_DIALOG_DATA,
   MatDialogRef,
@@ -108,13 +107,9 @@ export class DialogCostumerComponent {
 
 
   addContact() {
-    debugger
     this.setUserData()
-    // this.setUserData();
-    // this.setLoading();
-    // await this.userServices.addNewElement('users', this.data);
-    // this.resetInputs();
-    // this.dialogRef.close();
+    this.resetInputs();
+    this.dialogRef.close(this.data);
   }
 
 
@@ -141,17 +136,19 @@ export class DialogCostumerComponent {
     this.formData.phone.disable();
   }
 
+
   onFormValueChange(value: string) {
     this.formData.department.setValue(value);
     this.enableAddUser();
   }
 
+
   setUserData() {
-    this.data.firstName = this.formService.getFormData(this.formData.firstName);
-    this.data.lastName = this.formService.getFormData(this.formData.lastName);
-    this.data.lastName = this.formService.getFormData(this.formData.department);
-    this.data.mail = this.formService.getFormData(this.formData.mail);
-    this.data.phone = parseInt(this.formService.getFormData(this.formData.phone));
+    this.data.contact.firstName = this.formService.getFormData(this.formData.firstName);
+    this.data.contact.lastName = this.formService.getFormData(this.formData.lastName);
+    this.data.contact.department = this.formService.getFormData(this.formData.department);
+    this.data.contact.mail = this.formService.getFormData(this.formData.mail);
+    this.data.contact.phone = parseInt(this.formService.getFormData(this.formData.phone));
   }
 
 
@@ -169,6 +166,7 @@ export class DialogCostumerComponent {
     if (!this.formData.lastName.valid) return
     if (!this.formData.department.valid) return
     if (!this.formData.mail.valid) return
+    if (!this.formData.phone.valid && this.formData.phone.value != '') return
     else this.allowAddBtn = true;
   }
 
