@@ -9,6 +9,10 @@ import { FirebaseService } from '../../services/firebase/firebase.service';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogAddSingle } from '../../dialogs/dialog-add-single/dialog-add-single.component';
 import { Unsubscribe } from '@angular/fire/firestore';
+import { MatMenuModule } from '@angular/material/menu';
+import { DialogDeleteComponent } from '../../dialogs/dialog-delete/dialog-delete.component';
+import { ListData } from '../../interfaces/list-data';
+import { DialogEditSingle } from '../../dialogs/dialog-edit-single/dialog-edit-single.component';
 
 @Component({
   selector: 'app-form-selector',
@@ -19,6 +23,7 @@ import { Unsubscribe } from '@angular/fire/firestore';
     MatInputModule,
     MatButtonModule,
     MatSelectModule,
+    MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
   ],
@@ -63,7 +68,7 @@ export class FormSelectorComponent implements OnInit, OnChanges {
     this.unsubElement();
   }
 
-  getElements(): string[] {
+  getElements(): ListData[] {
     if (this.form === 'sector') return this.FBservices.sectors;
     else return this.FBservices.departments;
   }
@@ -80,5 +85,27 @@ export class FormSelectorComponent implements OnInit, OnChanges {
         this.formData.setValue(result.name)
       }
     });
+  }
+
+  openDialogEditElement(id: string | undefined, value: string | undefined): void {
+    if (!id || !value) return
+    const form = this.formData;
+    const element = this.form;
+    const dialogRef = this.dialog.open
+      (DialogEditSingle, { data: { form, element, value, id } });
+    dialogRef.afterClosed().subscribe(result => {
+      if (!result) return
+      if (result.name && result.name.length >= 2) {
+        this.formData.setValue(result.name)
+      }
+    });
+  }
+
+  openDialogDelet(id: String | undefined, collection: String, title: string): void {
+    if (!id) return
+    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+      data: { id, collection, title },
+    });
+    dialogRef.afterClosed().subscribe(result => { });
   }
 }

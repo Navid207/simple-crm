@@ -22,6 +22,8 @@ import { CompanyData } from '../../../shared/interfaces/company-data';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
+import { MenueService } from '../../../shared/services/menue/menue.service';
+import { ListData } from '../../../shared/interfaces/list-data';
 
 
 @Component({
@@ -88,9 +90,11 @@ export class AddNewCompanyComponent {
     private _formBuilder: FormBuilder,
     private FBservices: FirebaseService,
     private zipCodeService: ZipCodeService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private menue: MenueService
   ) {
     this.unsubSectors = this.FBservices.subSectors();
+    this.menue.setActivCategory('companies');
   }
 
   ngOnDestroy() {
@@ -166,7 +170,7 @@ export class AddNewCompanyComponent {
   }
 
 
-  getSectors(): string[] {
+  getSectors(): ListData[] {
     return this.FBservices.sectors
   }
 

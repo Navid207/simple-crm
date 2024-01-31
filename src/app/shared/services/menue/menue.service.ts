@@ -37,11 +37,12 @@ export class MenueService {
   constructor (private router: Router) {
       }
 
-  setActivCategory(){
+  setActivCategory(section: 'dashboard' | 'users' | 'companies'){
     let url = this.router.url.slice(1)
     this.categorys.forEach(category => {
       category.activ = false;
-      if (url === category.link) category.activ = true;
+      if (section === category.link) category.activ = true;
     });
+    return url
   }
 }

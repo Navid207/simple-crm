@@ -8,6 +8,7 @@ import { FirebaseService } from '../../../shared/services/firebase/firebase.serv
 import { UserData } from '../../../shared/interfaces/user-data';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogUserComponent } from '../../../shared/dialogs/dialog-user/dialog-user.component';
+import { MenueService } from '../../../shared/services/menue/menue.service';
 
 @Component({
   selector: 'app-user-detail',
@@ -27,11 +28,12 @@ export class UserDetailComponent {
   unsubData;
 
 
-  constructor(private router: ActivatedRoute, private userServices: FirebaseService, public dialog: MatDialog) {
+  constructor(private router: ActivatedRoute, private userServices: FirebaseService, public dialog: MatDialog, private menue: MenueService) {
     this.router.params.subscribe(params => {
       this.id = params['id']
     })
     this.unsubData = this.userServices.subUser(this.id);
+    this.menue.setActivCategory('users');
   }
 
 
@@ -45,10 +47,10 @@ export class UserDetailComponent {
   }
 
 
-  openDialogUser(userdata: UserData, settings: 'general' | 'address' | 'all'): void { 
+  openDialogUser(userdata: UserData, settings: 'general' | 'address' | 'all'): void {
     userdata.id = this.id;
     const dialogRef = this.dialog.open(DialogUserComponent, {
-      data: {userdata, settings}
+      data: { userdata, settings }
     });
     dialogRef.afterClosed().subscribe(result => { });
   }

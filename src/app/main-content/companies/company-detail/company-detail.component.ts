@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { CompanyData } from '../../../shared/interfaces/company-data';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UsersSelectionListComponent } from '../../../shared/components/users-selection-list/users-selection-list.component';
+import { MenueService } from '../../../shared/services/menue/menue.service';
 
 
 @Component({
@@ -27,15 +28,16 @@ import { UsersSelectionListComponent } from '../../../shared/components/users-se
 })
 export class CompanyDetailComponent {
 
- 
+
   id: string = '';
   companyData;
 
-  constructor(private router: ActivatedRoute, private FBServices: FirebaseService, public dialog: MatDialog){
+  constructor(private router: ActivatedRoute, private FBServices: FirebaseService, public dialog: MatDialog, private menue: MenueService) {
     this.router.params.subscribe(params => {
       this.id = params['id']
     })
     this.companyData = this.FBServices.subCompany(this.id);
+    this.menue.setActivCategory('companies');
   }
 
   ngOnDestroy() {

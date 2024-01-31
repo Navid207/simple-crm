@@ -30,7 +30,7 @@ export class CompaniesComponent {
   orderBy:'name'| 'city' | 'country' | 'sector' = 'name';
 
   constructor(private menue: MenueService, private FBServices: FirebaseService) {
-    this.menue.setActivCategory();
+    this.menue.setActivCategory('companies');
     this.unsubCopanies = this.FBServices.subCompanies(this.orderBy);
   }
 

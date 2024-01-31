@@ -1,5 +1,25 @@
+@import './../../../app.component.scss';
+
 mat-form-field {
     width: 100%;
     padding-bottom: 8px;
 }
 
+.select-row {
+    @include dFlex($jc: flex-start);
+    position: relative;
+
+    >button {
+        position: absolute;
+        z-index: 1;
+
+        >mat-icon {
+            color: white;
+        }
+    }
+
+    >mat-option {
+        width: 100%;
+        padding-left: 50px;
+    }
+}

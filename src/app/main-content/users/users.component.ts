@@ -10,6 +10,7 @@ import { UserData } from '../../shared/interfaces/user-data';
 import { RouterLink } from '@angular/router';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { DialogDeleteComponent  } from '../../shared/dialogs/dialog-delete/dialog-delete.component';
+import { MenueService } from '../../shared/services/menue/menue.service';
 
 
 
@@ -34,8 +35,9 @@ export class UsersComponent {
   orderBy = 'firstName';
   selectedRowIndex!: number;
 
-  constructor(public dialog: MatDialog, private userServices: FirebaseService) {
+  constructor(public dialog: MatDialog, private userServices: FirebaseService, private menue: MenueService) {
     this.unsubUsers = this.userServices.subUsers(this.orderBy);
+    this.menue.setActivCategory('users');
   }
 
   changeUsersOrder(orderBy: string) {

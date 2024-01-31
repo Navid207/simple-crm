@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Edit {{ element }}</h1>
+<div mat-dialog-content class="form-area">
+    <mat-form-field appearance="outline" [color]="'accent'">
+        <mat-label>{{ element }}</mat-label>
+        <input matInput placeholder="{{ value }}" [formControl]="form" (ngModelChange)="enableAddElement()">
+        @if (form.invalid) {
+        <mat-error>{{this.formService.getErrorMessage(form, element)}}</mat-error>
+        }
+      </mat-form-field>
+</div>
+
+
+<div mat-dialog-actions>
+    <div class="btn-area">
+        <button mat-button (click)="onNoClick()">close</button>
+        <button mat-raised-button color="accent" [disabled]="!allowAddBtn" (click)="saveElement()">save</button>
+    </div>
+</div>
+
+
+@if (loading) {
+<mat-progress-bar mode="indeterminate"></mat-progress-bar>
+}

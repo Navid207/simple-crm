@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
 import { UserData } from '../../interfaces/user-data';
 import { CompanyData } from '../../interfaces/company-data';
+import { ListData } from '../../interfaces/list-data';
 
 
 @Injectable({
@@ -33,8 +34,8 @@ export class FirebaseService {
     assigned: []
   }
 
-  sectors!: string[];
-  departments!: string[];
+  sectors!: ListData[];
+  departments!: ListData[];
 
   firestore: Firestore = inject(Firestore);
 
@@ -80,8 +81,12 @@ export class FirebaseService {
 
 
   pushToName(doc: any, collId: 'sector' | 'department') {
-    if (doc.data().name && collId === 'sector') this.sectors.push(doc.data().name)
-    else if (doc.data().name && collId === 'department') this.departments.push(doc.data().name)
+    let data: ListData = { name: '', id: '' };
+    if (!doc.data().name) return
+    data.name = doc.data().name;
+    data.id = doc.id;
+    if (doc.data().name && collId === 'sector') this.sectors.push(data)
+    else if (collId === 'department') this.departments.push(data)
   }
 
 
@@ -154,6 +159,14 @@ export class FirebaseService {
     if (!user.id) return
     let json = this.getCleanUserJson(user);
     await updateDoc(this.getSingleDocRef('users', user.id), json).catch(
+      (err) => { console.error(err) }
+    ).then();
+  }
+
+
+  async updateListData(collID: string, id: string, json: {}) {
+    if (!collID || !id || !json) return
+    await updateDoc(this.getSingleDocRef(collID, id), json).catch(
       (err) => { console.error(err) }
     ).then();
   }

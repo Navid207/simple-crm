@@ -11,6 +11,6 @@ import { MenueService } from '../../shared/services/menue/menue.service';
 export class DashboardComponent {
 
   constructor(private menue: MenueService) {
-    this.menue.setActivCategory();
+    this.menue.setActivCategory('dashboard');
   }
 }
