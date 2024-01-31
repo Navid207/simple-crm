@@ -95,3 +95,29 @@ main{
 
 }
 
+.row-top-right-corner {
+    position: absolute;
+    top: 0.5px;
+    right: 12px;
+}
+
+.selectedRowIndex{
+    background-color: $lgBlack;
+}
+
+.hidden-slide-div{
+    position: absolute;
+    z-index: 100;
+    top: 0;
+    bottom: 0;
+    width: 12px;
+    background-color: rgba(255,255,255,0.1);
+
+    >mat-icon{
+        display: flex;
+        align-items: center;
+        height: 100vh;
+        margin-left: -6px;
+        color: #ffffff7a;
+    }
+}

@@ -8,6 +8,8 @@ import { RouterLink } from '@angular/router';
 import { MenueService } from '../../shared/services/menue/menue.service';
 import { FirebaseService } from '../../shared/services/firebase/firebase.service';
 import { CompanyData } from '../../shared/interfaces/company-data';
+import { DialogDeleteComponent } from '../../shared/dialogs/dialog-delete/dialog-delete.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-companies',
@@ -27,9 +29,11 @@ import { CompanyData } from '../../shared/interfaces/company-data';
 export class CompaniesComponent {
 
   unsubCopanies;
-  orderBy:'name'| 'city' | 'country' | 'sector' = 'name';
+  orderBy:'name'| 'city' | 'country' | 'sector' = 'name';  
+  selectedRowIndex!: number;
 
-  constructor(private menue: MenueService, private FBServices: FirebaseService) {
+
+  constructor(private menue: MenueService, private FBServices: FirebaseService,public dialog: MatDialog) {
     this.menue.setActivCategory('companies');
     this.unsubCopanies = this.FBServices.subCompanies(this.orderBy);
   }
@@ -48,6 +52,19 @@ export class CompaniesComponent {
     this.unsubCopanies = this.FBServices.subCompanies(this.orderBy);
   }
 
+
+  selectRow(index: number): void {
+    if (index >= 0) this.selectedRowIndex = index;
+    else this.selectedRowIndex = NaN;
+  }
+
+  openDialogDelet(id: String | undefined, collection: String, title: string): void {
+    if (!id) return
+    const dialogRef = this.dialog.open(DialogDeleteComponent, {
+      data: { id, collection, title },
+    });
+    dialogRef.afterClosed().subscribe(result => { });
+  }
   
 }
 

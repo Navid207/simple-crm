@@ -19,9 +19,4 @@ import { MatDrawer, MatSidenavModule } from '@angular/material/sidenav';
 export class NavbarComponent {
 
   @Input() slidBar!: MatDrawer;
-
-
-  test(){
-    debugger
-  }
 }

@@ -4,6 +4,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { MenueComponent } from './shared/components/menue/menue.component';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { MenueComponent } from './shared/components/menue/menue.component';
     RouterLinkActive,
     MatSidenavModule,
     NavbarComponent,
+    MatIcon,
     MenueComponent
   ],
   templateUrl: './app.component.html',

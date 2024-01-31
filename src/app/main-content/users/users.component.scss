@@ -1,4 +1,4 @@
-@import './../../../styles.scss';
+@import './../../app.component.scss';
 
 .table-user {
     @include dFlex($fd: column);
@@ -65,10 +65,6 @@
         }
     }
 
-}
-
-.selectedRowIndex{
-    background-color: $lgBlack;
 }
 
 .pin-top-right-corner {

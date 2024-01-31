@@ -1,8 +1,12 @@
+@if (!drawer.opened){
+  <div (mouseover)="drawer.open() " class="hidden-slide-div">
+    <mat-icon>chevron_right</mat-icon>
+  </div>
+}
 <mat-drawer-container autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side" [opened]="sideMenuPind">
     <app-menue [fixed]="sideMenuPind" [slidBar]="drawer"></app-menue>
   </mat-drawer>
-
   <app-navbar [slidBar]="drawer"></app-navbar>
   <main>
     <router-outlet></router-outlet>
