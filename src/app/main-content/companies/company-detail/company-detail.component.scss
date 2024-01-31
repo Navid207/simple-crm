@@ -20,6 +20,14 @@
             padding-bottom: 12px;
         }
 
+        mat-card-subtitle{
+            margin-bottom: -6px;
+        }
+
+        mat-card-content{
+            padding: 0;
+        }
+
         a {
             @include dFlex($gap: 12px, $jc: flex-start);
             text-decoration: none;

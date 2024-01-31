@@ -33,6 +33,7 @@ import { DialogEditSingle } from '../../dialogs/dialog-edit-single/dialog-edit-s
 export class FormSelectorComponent implements OnInit, OnChanges {
 
   @Input() form!: 'sector' | 'department';
+  @Input() formValue: string | null = null;
   @Input() disable = false;
   @Output() valueOut = new EventEmitter<string>();
 
@@ -51,6 +52,7 @@ export class FormSelectorComponent implements OnInit, OnChanges {
   ngOnInit() {
     if (this.form === 'sector') this.unsubElement = this.FBservices.subSectors();
     else this.unsubElement = this.FBservices.subDepartments();
+    if (this.formValue) this.formData.setValue(this.formValue);
   }
 
   ngOnChanges(changes: SimpleChanges): void {

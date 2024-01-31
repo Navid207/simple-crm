@@ -171,6 +171,14 @@ export class FirebaseService {
     ).then();
   }
 
+  async updateCopmanyData(data: CompanyData) {
+    if (!data.id) return
+    let json = this.getCleanCopmanyJson(data);
+    await updateDoc(this.getSingleDocRef('users', data.id), json).catch(
+      (err) => { console.error(err) }
+    ).then();
+  }
+
 
   getCleanUserJson(user: UserData) {
     return {
@@ -182,6 +190,21 @@ export class FirebaseService {
       mail: user.mail,
       phone: user.phone,
       birthDate: user.birthDate,
+    }
+  }
+
+
+  getCleanCopmanyJson(data: CompanyData) {
+    return {
+      name: data.name,
+      street: data.street,
+      no: data.no,
+      zipCode: data.zipCode,
+      city: data.city,
+      country: data.country,
+      sector: data.sector,
+      contacts: data.contacts, 
+      assigned: data.assigned
     }
   }
 

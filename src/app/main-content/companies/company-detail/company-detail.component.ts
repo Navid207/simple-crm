@@ -10,6 +10,7 @@ import { CompanyData } from '../../../shared/interfaces/company-data';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { UsersSelectionListComponent } from '../../../shared/components/users-selection-list/users-selection-list.component';
 import { MenueService } from '../../../shared/services/menue/menue.service';
+import { DialogCompanyComponent } from '../../../shared/dialogs/dialog-company/dialog-company.component';
 
 
 @Component({
@@ -48,5 +49,12 @@ export class CompanyDetailComponent {
     return this.FBServices.company;
   }
 
+  openDialogCompany(companyData: CompanyData, settings: 'general' | 'contacts' | 'assinments'): void {
+    companyData.id = this.id;
+    const dialogRef = this.dialog.open(DialogCompanyComponent, {
+      data: { companyData, settings }
+    });
+    dialogRef.afterClosed().subscribe(result => { });
+  }
 
 }
