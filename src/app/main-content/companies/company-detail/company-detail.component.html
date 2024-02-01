@@ -9,56 +9,81 @@
 
   <img src="./../../../assets/img/user.svg" alt="">
   <div class="info">
-    <mat-card-title>{{ getCompany().name }}</mat-card-title>
+    <mat-card-title>{{ getCompany().name }}<mat-chip>{{ getCompany().sector }}</mat-chip></mat-card-title>
     <mat-card-subtitle>Address</mat-card-subtitle>
     <mat-card-content>
-      {{ getCompany().street }}<br>
+      {{ getCompany().street }} {{ getCompany().no }}<br>
       {{ getCompany().country }} {{ getCompany().zipCode }} {{ getCompany().city }}
     </mat-card-content>
   </div>
 
 </mat-card>
 
-<mat-card class="address-card">
-  <mat-card-title>Contacts</mat-card-title>
-  <table class="info-table">
-    <tr>
-      <th>Name</th>
-      <th>Department</th>
-      <th>E-Mail</th>
-      <th>Phone</th>
-    </tr>
+<mat-card class="info-card">
+    <mat-expansion-panel hideToggle>
+      <mat-expansion-panel-header>
+        <mat-panel-description>
+          <mat-icon matBadge="{{ getCompany().contacts.length }}"
+          [matBadgeHidden]="getCompany().contacts.length <= 0">contacts</mat-icon>
+          <mat-card-title>Contacts</mat-card-title>
+          <!-- @if (getCompany().contacts.length > 0) {
+            <div class="info-expansion">
+              <span>created contacts:</span>
+              <span>{{ getCompany().contacts.length }}</span>
+            </div>
+          }           -->
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+  
+      <table class="info-table m-innerline-24 m-bottom-16">
+        <tr>
+          <th>Name</th>
+          <th>Department</th>
+          <th>E-Mail</th>
+          <th>Phone</th>
+        </tr>
+    
+        @for (contact of getCompany().contacts; track $index) {
+        <tr>
+          <td>{{ contact.firstName }} {{ contact.lastName }}</td>
+          <td>{{ contact.department }}</td>
+          <td>{{ contact.mail }}</td>
+          <td>{{ contact.phone }}</td>
+          <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-right">
+            <mat-icon>more_vertic</mat-icon>
+          </button>
+          <mat-menu #generlMenu$index="matMenu">
+            <button mat-menu-item (click)="openDialogNewContact(getCompany(),'change', $index)">Edit
+              <mat-icon>edit</mat-icon></button>
+            <button mat-menu-item
+              (click)="openDialogDelet(getCompany(),'contact-'+$index, (getCompany().contacts[$index].firstName+' '+getCompany().contacts[$index].lastName))">
+              Delete<mat-icon>delete</mat-icon>
+            </button>
+          </mat-menu>
+        </tr>
+        }
+      </table> 
+    </mat-expansion-panel>
 
-    @for (contact of getCompany().contacts; track $index) {
-    <tr>
-      <td>{{ contact.firstName }} {{ contact.lastName }}</td>
-      <td>{{ contact.department }}</td>
-      <td>{{ contact.mail }}</td>
-      <td>{{ contact.phone }}</td>
-      <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-right">
-        <mat-icon>more_vertic</mat-icon>
-      </button>
-      <mat-menu #generlMenu$index="matMenu">
-        <button mat-menu-item>Delete
-          <mat-icon>delete</mat-icon></button>
-      </mat-menu>
-    </tr>
-    }
-
-
-  </table>
+    <button mat-icon-button [matMenuTriggerFor]="contactMenu" class="pin-top-right-corner">
+      <mat-icon>more_vertic</mat-icon>
+    </button>
+    <mat-menu #contactMenu="matMenu">
+      <button mat-menu-item (click)="openDialogNewContact(getCompany(),'new', null)">Add new contact
+        <mat-icon>add</mat-icon></button>
+    </mat-menu>
 </mat-card>
 
-<mat-card class="address-card">
+<mat-card class="info-card">
   <mat-card-title>Assignments</mat-card-title>
   <!-- [disabled]="loadingAnimation" [expanded]="!closeAssignedTo" -->
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-description>
         <mat-icon>perm_identity</mat-icon>
-         @if(user){
-          <span>Assigned to: {{ user.selectedUserIds.length }}</span>
-         }        
+        @if(user){
+        <span>Assigned to: {{ user.selectedUserIds.length }}</span>
+        }
       </mat-panel-description>
     </mat-expansion-panel-header>
 

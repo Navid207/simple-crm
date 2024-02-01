@@ -18,6 +18,9 @@ import { FirebaseService } from '../../services/firebase/firebase.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { FormService } from '../../services/form/form.service';
 import { FormSelectorComponent } from '../../components/form-selector/form-selector.component';
+import { CompanyData } from '../../interfaces/company-data';
+import { ContactData } from '../../interfaces/contact-data';
+import { concat } from 'rxjs';
 
 
 @Component({
@@ -54,12 +57,11 @@ export class DialogCostumerComponent {
   constructor(
     public dialogRef: MatDialogRef<DialogCostumerComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private userServices: FirebaseService,
+    private FBServices: FirebaseService,
     public formService: FormService
   ) {
     if (!data.settings) this.setNewUser();
-    // else this.setUserInfos(data.userdata, data.settings);
-    // this.formData.city.disable();
+    else this.setData(data.companyData, data.settings, data.index);
   }
 
 
@@ -69,56 +71,47 @@ export class DialogCostumerComponent {
   }
 
 
-  // setUserInfos(userdatas: UserData, settings: 'general' | 'address' | 'all') {
-  //   this.data = userdatas;
-  //   this.setFormDataValues(userdatas);
-  //   if (settings === 'general') {
-  //     this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName;
-  //     this.userInfoGeneral = true;
-  //   }
-  //   if (settings === 'address') {
-  //     this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName + ' ' + 'Address';
-  //     this.userInfoAddress = true;
-  //   }
-  //   if (settings === 'all') {
-  //     this.dialogTitle = userdatas.firstName + ' ' + userdatas.lastName;
-  //     this.userInfoAddress = true;
-  //     this.userInfoGeneral = true;
-  //   }
-  // }
+  setData(datas: CompanyData, settings: 'new' | 'change', index: number | null) {
+    if (settings === 'new') {
+      this.dialogTitle = 'Add new Contact';
+    }
+    if (settings === 'change' && index !== null ) {
+      this.dialogTitle = datas.contacts[index].firstName + ' ' + datas.contacts[index].lastName;
+      this.setFormDataValues(datas.contacts[index]);
+    }
+    // this.data = datas;
+    // this.id = data.id;
+  }
 
 
-  // setFormDataValues(data: UserData) {
-  //   this.id = data.id;
-  //   this.formData.firstName.setValue(data.firstName);
-  //   this.formData.lastName.setValue(data.lastName);
-  //   this.formData.mail.setValue(data.mail);
-  //   if (data.phone) this.formData.phone.setValue(data.phone.toString());
-  //   if (data.birthDate) {
-  //     let date: Date = new Date(data.birthDate);
-  //     this.formData.birthDate.setValue(date.toString());
-  //   }
-  // }
+  setFormDataValues(data: ContactData) {
+    this.formData.firstName.setValue(data.firstName);
+    this.formData.lastName.setValue(data.lastName);
+    this.formData.department.setValue(data.department)
+    this.formData.mail.setValue(data.mail);
+    this.formData.phone.setValue(data.phone.toString());
+  }
 
-
+  
   onNoClick(): void {
     this.dialogRef.close();
   }
 
 
   addContact() {
-    this.setUserData()
+    this.setContactData()
     this.resetInputs();
     this.dialogRef.close(this.data);
   }
 
 
-  async saveUserData() {
-    // this.setUserData();
-    // this.setLoading();
-    // await this.userServices.updateUserData(this.data);
-    // this.resetInputs();
-    // this.dialogRef.close();
+  async saveContact() {
+    this.setContactData();
+    this.setLoading();
+    await this.FBServices.updateCopmanyData(this.data.companyData);
+    this.resetInputs();
+    this.enableInputs();
+    this.dialogRef.close();
   }
 
 
@@ -132,35 +125,62 @@ export class DialogCostumerComponent {
   disableInputs() {
     this.formData.firstName.disable();
     this.formData.lastName.disable();
+    this.formData.department.disable();
     this.formData.mail.disable();
     this.formData.phone.disable();
   }
 
 
-  onFormValueChange(value: string) {
-    this.formData.department.setValue(value);
-    this.enableAddUser();
+  enableInputs() {
+    this.formData.firstName.enable();
+    this.formData.lastName.enable();
+    this.formData.department.enable();
+    this.formData.mail.enable();
+    this.formData.phone.enable();
   }
 
 
-  setUserData() {
-    this.data.contact.firstName = this.formService.getFormData(this.formData.firstName);
-    this.data.contact.lastName = this.formService.getFormData(this.formData.lastName);
-    this.data.contact.department = this.formService.getFormData(this.formData.department);
-    this.data.contact.mail = this.formService.getFormData(this.formData.mail);
-    this.data.contact.phone = parseInt(this.formService.getFormData(this.formData.phone));
+  onFormValueChange(value: string) {
+    this.formData.department.setValue(value);
+    this.enableAddBtn();
+  }
+
+
+  setContactData() {
+    if (this.data.index != null) this.changeContact(this.data.index)
+    else this.pushContact();
+  }
+
+  changeContact(i: number){
+    this.data.companyData.contacts[i].firstName = this.formService.getFormData(this.formData.firstName);
+    this.data.companyData.contacts[i].lastName = this.formService.getFormData(this.formData.lastName);
+    this.data.companyData.contacts[i].department = this.formService.getFormData(this.formData.department);
+    this.data.companyData.contacts[i].mail = this.formService.getFormData(this.formData.mail);
+    this.data.companyData.contacts[i].phone = parseInt(this.formService.getFormData(this.formData.phone));
+  }
+
+  pushContact(){
+    let contact: ContactData = {
+      firstName : this.formService.getFormData(this.formData.firstName),
+      lastName : this.formService.getFormData(this.formData.lastName),
+      department : this.formService.getFormData(this.formData.department),
+      mail : this.formService.getFormData(this.formData.mail),
+      phone : parseInt(this.formService.getFormData(this.formData.phone)),  
+    }
+    this.data.companyData.contacts.push(contact);
   }
 
 
   resetInputs() {
     this.formData.firstName.reset();
     this.formData.lastName.reset();
+    this.formData.department.reset();
     this.formData.mail.reset();
     this.formData.phone.reset();
   }
 
 
-  enableAddUser() {
+  enableAddBtn() {
     this.allowAddBtn = false;
     if (!this.formData.firstName.valid) return
     if (!this.formData.lastName.valid) return

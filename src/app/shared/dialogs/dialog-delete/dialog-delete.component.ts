@@ -32,12 +32,21 @@ export class DialogDeleteComponent {
     this.dialogRef.close();
   }
 
-  async delet(){
+  async delet() {
     this.loading = true;
-    await this.firebaseServices.delete(this.data.id,this.data.collection);
+    await this.deletOptions();
     this.dialogRef.close();
   }
 
+  async deletOptions() {
+    if (this.data.collection.search('contact-') >= 0) await this.deletContact();
+    else await this.firebaseServices.delete(this.data.id, this.data.collection)
+  }
 
+  async deletContact() {
+    let i = parseInt(this.data.collection.split('-')[1]);
+    this.data.companyData.contacts.splice(i,1)
+    await this.firebaseServices.updateCopmanyData(this.data.companyData);
+  }
 
 }

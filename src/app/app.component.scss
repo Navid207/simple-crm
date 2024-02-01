@@ -34,6 +34,7 @@ main{
     border-collapse: collapse;
     overflow: hidden;
 
+
     >tr {
         display: flex;
         width: 100%;
@@ -88,6 +89,16 @@ main{
                 padding-right: 12px;
             }
 
+        }
+
+        button{
+            display: none;
+        }
+
+        &:hover{
+            button{
+                display: inline-block;
+            }
         }
     }
 

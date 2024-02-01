@@ -5,8 +5,17 @@ mat-form-field {
     padding-bottom: 8px;
 }
 
-.form-input {
+.form-row {
     @include dFlex($gap: 12px);
+    padding-inline: 24px;
+
+    >.small{
+        width: 30%;
+    }
+}
+
+.form-column {
+    @include dFlex($fd: column);
     padding-inline: 24px;
 }
 
@@ -15,5 +24,13 @@ mat-form-field {
 }
 
 app-form-selector{
-    padding-inline: 24px;
+    width: 100%;
 }
+
+mat-card-subtitle{
+    padding-inline: 24px;
+    padding-bottom: 8px;
+}
+
+
+

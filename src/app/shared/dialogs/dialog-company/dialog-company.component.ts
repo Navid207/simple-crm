@@ -112,10 +112,10 @@ export class DialogCompanyComponent {
 
 
   async saveCompanyData() {
-    debugger
     this.setCompanyData();
     this.setLoading();
-    // await this.FBServices.updateCopmanyData(this.data);
+    await this.FBServices.updateCopmanyData(this.data);
+    this.enableInputs();
     this.dialogRef.close();
   }
 
@@ -157,6 +157,15 @@ export class DialogCompanyComponent {
     this.formData.no.disable();
     this.formData.zipCode.disable();
     // this.formData.no.disable();
+  }
+
+
+  enableInputs() {
+    this.formData.name.enable();
+    this.formData.sector.enable();
+    this.formData.street.enable();
+    this.formData.no.enable();
+    this.formData.zipCode.enable();
   }
 
 

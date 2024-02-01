@@ -63,7 +63,9 @@ export class AddNewCompanyComponent {
     zipCode: NaN,
     city: '',
     country: '',
-    sector: ''
+    sector: '',
+    contacts: [],
+    assigned: []
   };
   selectableSectors: string[] = [];
   serchZipCode!: number;

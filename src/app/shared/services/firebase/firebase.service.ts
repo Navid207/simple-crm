@@ -174,7 +174,7 @@ export class FirebaseService {
   async updateCopmanyData(data: CompanyData) {
     if (!data.id) return
     let json = this.getCleanCopmanyJson(data);
-    await updateDoc(this.getSingleDocRef('users', data.id), json).catch(
+    await updateDoc(this.getSingleDocRef('companies', data.id), json).catch(
       (err) => { console.error(err) }
     ).then();
   }

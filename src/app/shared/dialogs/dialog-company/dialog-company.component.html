@@ -1,19 +1,21 @@
 <h1 mat-dialog-title>{{ dialogTitle }}</h1>
 
 @if (generalInfo) {
-<div class="form-line">
+<div class="form-column">
   <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Company Name</mat-label>
     <input matInput placeholder="Company Name" [formControl]="formData.name" (ngModelChange)="enableSave()">
+    @if (formData.name.invalid) {
+      <mat-error>{{this.formService.getErrorMessage(formData.name,'Name')}}</mat-error>
+      }
   </mat-form-field>
 
-  <app-form-selector [disable]="loading" [form]="'sector'"  [formValue]="formData.sector.value" (valueOut)="onFormValueChange($event)">
+  <app-form-selector [disable]="loading" [form]="'sector'" [formValue]="formData.sector.value"
+    (valueOut)="onFormValueChange($event)">
   </app-form-selector>
-
 </div>
-
 <mat-card-subtitle>Address</mat-card-subtitle>
-<div class="form-line">
+<div class="form-row">
   <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Street</mat-label>
     <input matInput placeholder="Street" [formControl]="formData.street" (ngModelChange)="enableSave()">
@@ -21,7 +23,7 @@
     <mat-error>{{this.formService.getErrorMessage(formData.street,'Street')}}</mat-error>
     }
   </mat-form-field>
-  <mat-form-field appearance="outline" [color]="'accent'">
+  <mat-form-field appearance="outline" [color]="'accent'" class="small">
     <mat-label>Number</mat-label>
     <input matInput placeholder="Number" [formControl]="formData.no" (ngModelChange)="enableSave()">
     @if (formData.no.invalid) {
@@ -29,23 +31,23 @@
     }
   </mat-form-field>
 </div>
-<div class="form-input">
+<div class="form-row">
+  <mat-form-field appearance="outline" [color]="'accent'" class="small">
+    <mat-label>Zip code</mat-label>
+    <input matInput placeholder="24106" [formControl]="formData.zipCode" (ngModelChange)="enableSave()"
+      (blur)="checkZipCode()">
+    @if (formData.zipCode.invalid) {
+    <mat-error>{{formService.getErrorMessage(formData.zipCode,'Zip Code')}}</mat-error>
+    }
+  </mat-form-field>
   <mat-form-field appearance="outline" [color]="'accent'">
-      <mat-label>Zip code</mat-label>
-      <input matInput placeholder="24106" [formControl]="formData.zipCode" (ngModelChange)="enableSave()"
-        (blur)="checkZipCode()">
-      @if (formData.zipCode.invalid) {
-      <mat-error>{{formService.getErrorMessage(formData.zipCode,'Zip Code')}}</mat-error>
+    <mat-label>Select City</mat-label>
+    <mat-select [formControl]="formData.city">
+      @for (city of selectableCitys; track $index) {
+      <mat-option value="{{ city }}" (click)="enableSave()">{{ city }}</mat-option>
       }
-    </mat-form-field>
-    <mat-form-field appearance="outline" [color]="'accent'">
-      <mat-label>Select City</mat-label>
-      <mat-select [formControl]="formData.city">
-        @for (city of selectableCitys; track $index) {
-        <mat-option value="{{ city }}" (click)="enableSave()">{{ city }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    </mat-select>
+  </mat-form-field>
 </div>
 
 }

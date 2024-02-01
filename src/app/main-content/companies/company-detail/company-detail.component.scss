@@ -1,5 +1,6 @@
 @import './../../../app.component.scss';
 
+
 .head-card {
     @include dFlex($gap: 50px, $jc: flex-start, $ai: flex-end);
     background-color: #b300ff;
@@ -17,14 +18,19 @@
         @include dFlex($gap: 4px, $fd: column, $ai: flex-start);
 
         mat-card-title {
+            display: flex;
             padding-bottom: 12px;
+
+            mat-chip {
+                margin-left: 32px;
+            }
         }
 
-        mat-card-subtitle{
+        mat-card-subtitle {
             margin-bottom: -6px;
         }
 
-        mat-card-content{
+        mat-card-content {
             padding: 0;
         }
 
@@ -43,7 +49,8 @@
     }
 }
 
-.address-card {
+
+.info-card {
     margin-top: 32px;
 
     mat-card-title {
@@ -54,4 +61,22 @@
 
 .mat-mdc-menu-item {
     min-height: 26px;
+}
+
+
+.m-innerline-24{
+    margin-inline: -24px;
+}
+
+.m-bottom-16{
+    margin-bottom: -16px;
+}
+
+mat-expansion-panel-header{
+    height: 64px;
+}
+
+.info-expansion{
+    @include dFlex();
+    
 }

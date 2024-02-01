@@ -10,6 +10,6 @@ export interface CompanyData {
     country: string,
     sector: string,
     link?: string,
-    contacts?: ContactData[],
-    assigned?: string[];
+    contacts: ContactData[],
+    assigned: string[];
 }
