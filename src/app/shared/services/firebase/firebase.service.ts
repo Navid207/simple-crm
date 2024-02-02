@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, onSnapshot, query, orderBy, doc, updateDoc, deleteDoc, getDoc } from '@angular/fire/firestore';
 import { UserData } from '../../interfaces/user-data';
 import { CompanyData } from '../../interfaces/company-data';
 import { ListData } from '../../interfaces/list-data';
@@ -214,6 +214,13 @@ export class FirebaseService {
     await deleteDoc(this.getSingleDocRef(colId, id)).catch(
       (err) => { console.error(err) }
     ).then();
+  }
+
+
+  async getSingleUserDoc(docId: string): Promise<UserData | null>{
+    const docSnap = await getDoc(this.getSingleDocRef('users', docId));
+    if (docSnap.exists()) return this.fillUserData(docSnap);
+    else return null 
   }
 
 }

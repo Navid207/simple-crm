@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>{{ data.companyData.name }}</h1>
+<mat-dialog-content>Assigned to:</mat-dialog-content>
+<app-users-selection-list [selectetIdList]="assignedList" #userlist></app-users-selection-list>
+
+<div mat-dialog-actions>
+  <div>
+      <button mat-button (click)="test()">close</button>
+      <button mat-raised-button color="accent"
+      [disabled]="!allowAddBtn">save</button>
+  </div>
+</div>
+
+@if (loading) {
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+  }

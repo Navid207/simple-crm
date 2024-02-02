@@ -1,0 +1,19 @@
+@import './../../../../styles.scss';
+
+mat-form-field {
+    width: 100%;
+    padding-bottom: 8px;
+}
+
+.form-input {
+    @include dFlex($gap: 12px);
+    padding-inline: 24px;
+}
+
+.form-btn {
+    padding-inline: 24px;
+}
+
+app-form-selector{
+    padding-inline: 24px;
+}
