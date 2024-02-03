@@ -1,6 +1,6 @@
-<mat-selection-list>
+<mat-selection-list [disabled]="disabled">
     @for (user of getUsers(); track $index) {
-    <mat-list-option (click)="toggleIdToSelectedUsesIds(user.id)" [selected]="setSelected(user.id)">
+    <mat-list-option (click)="toggleIdToSelectedUsesIds(user.id)" [selected]="setSelected(user.id)" >
         {{ user.firstName }} {{ user.lastName }} - {{ user.city }}
     </mat-list-option>
     }

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { FirebaseService } from '../../services/firebase/firebase.service';
@@ -19,6 +19,8 @@ import { BooleanInput } from '@angular/cdk/coercion';
 export class UsersSelectionListComponent implements OnChanges {
 
   @Input() selectetIdList: string[] | undefined;
+  @Input() disabled: boolean = false;
+  @Output() selectedUserIdsChange: EventEmitter<string[]> = new EventEmitter<string[]>();
   selectedUserIds: string[] = [];
 
   unsubUsers;
@@ -42,12 +44,13 @@ export class UsersSelectionListComponent implements OnChanges {
   }
 
   toggleIdToSelectedUsesIds(id: string | undefined) {
-    if (!id) return
+    if (!id || this.disabled) return
     if (this.selectedUserIds.find(existingId => existingId === id)) {
       this.selectedUserIds = this.selectedUserIds.filter(e => e !== id)
     } else {
       this.selectedUserIds.push(id)
     } 
+    this.selectedUserIdsChange.emit(this.selectedUserIds);
   }
 
   setSelected(id: string | undefined):BooleanInput {
