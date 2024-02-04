@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, Ma
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { FirebaseService } from '../../services/firebase/firebase.service';
 import { FormService } from '../../services/form/form.service';
-import { ContactData } from '../../interfaces/contact-data';
+import { CompanyData } from '../../../shared/interfaces/company-data';
 import { UsersSelectionListComponent } from '../../components/users-selection-list/users-selection-list.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -31,7 +31,8 @@ export class DialogUserselectionComponent {
   allowAddBtn = false;
   dialogTitle = '';
   id?: string;
-  oldList = [];
+  oldList: string[] = [];
+  selectetList = [];
 
   @ViewChild('userlist') userList!: any;
 
@@ -41,7 +42,9 @@ export class DialogUserselectionComponent {
     private FBServices: FirebaseService,
     public formService: FormService
   ) {
-    if (data.companyData.assigned) this.oldList = data.companyData.assigned;
+    if (data.companyData.assigned){
+      this.oldList =[...data.companyData.assigned];
+    }
   }
 
   checkChange() {
@@ -51,10 +54,6 @@ export class DialogUserselectionComponent {
       this.allowAddBtn = true;
     }
     else this.allowAddBtn = false;
-  }
-
-  test() {
-    debugger
   }
 
   async save() {
@@ -69,7 +68,5 @@ export class DialogUserselectionComponent {
   closeDialog(){
     this.dialogRef.close();
   }
-
-
 
 }

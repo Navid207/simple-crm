@@ -96,7 +96,7 @@ getTooltipTextContacts():string{
 }
 
 getTooltipTextAssignments():string{
-  if (this.getCompany().contacts.length == 0) return 'No assigned person found. Please link it to a user.'
+  if (this.getCompany().assigned.length == 0) return 'No assigned person found. Please link it to a user.'
   else return''
 }
 
@@ -118,10 +118,11 @@ getTooltipTextAssignments():string{
     });
   }
 
-  openDialogUserselecton (companyData: CompanyData): void {
-    companyData.id = this.id;
+  openDialogUserselecton (Data: CompanyData): void {
+    Data.id = this.id;
+    const companyData:CompanyData = JSON.parse(JSON.stringify(Data));
     const dialogRef = this.dialog.open(DialogUserselectionComponent, {
-      data: { companyData },
+      data: { companyData},
     });
     dialogRef.afterClosed().subscribe(result => {
       // if (result && result.contact) this.FBServices.company.contacts?.push(result.contact)

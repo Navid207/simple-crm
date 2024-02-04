@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>{{ data.companyData.name }}</h1>
 <mat-dialog-content>Assigned to:</mat-dialog-content>
-<app-users-selection-list [selectetIdList]="oldList" #userlist
+<app-users-selection-list [selectetIdList]="data.companyData.assigned" #userlist
 (selectedUserIdsChange)="checkChange()" [disabled]="loading"></app-users-selection-list>
 
 <div mat-dialog-actions>
