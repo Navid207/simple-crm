@@ -19,20 +19,6 @@ export class FormService {
       Validators.pattern('^[a-zA-ZäöüÄÖÜß\\s]*$'),
       Validators.minLength(2)
     ]),
-    street: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[a-zA-ZäöüÄÖÜß\\s\\-\'",.!?]+[0-9]*$'),
-      Validators.minLength(3)
-    ]),
-    zipCode: new FormControl('', [
-      Validators.required,
-      Validators.pattern('^[0-9]+$'),
-      Validators.minLength(3)
-    ]),
-    city: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3)
-    ]),
     birthDate: new FormControl('', [
       Validators.pattern(/^[A-Za-z]{3} [A-Za-z]{3} \d{1,2} \d{4} \d{2}:\d{2}:\d{2} GMT[+-]\d{4} \(.+\)$/i),
       Validators.minLength(2)
@@ -44,6 +30,10 @@ export class FormService {
     phone: new FormControl('', [
       Validators.pattern('^[0-9]+$'),
       Validators.minLength(5)
+    ]),
+    department: new FormControl('', [
+      Validators.required,
+      Validators.minLength(2)
     ]),
   }
 

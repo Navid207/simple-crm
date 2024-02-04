@@ -7,7 +7,7 @@
             <th (click)="changeUsersOrder('mail')">E-Mail
                 @if(orderBy == 'mail'){<mat-icon>expand_more</mat-icon>}
             </th>
-            <th (click)="changeUsersOrder('city')">City
+            <th (click)="changeUsersOrder('city')">Department
                 @if(orderBy == 'city'){<mat-icon>expand_more</mat-icon>}
             </th>
         </tr>
@@ -15,7 +15,7 @@
         <tr [class.selectedRowIndex]="selectedRowIndex === $index"> 
             <td [routerLink]="'/user/'+ user.id">{{ user.firstName }} {{user.lastName}}</td>
             <td [routerLink]="'/user/'+ user.id"> {{ user.mail }}</td>
-            <td [routerLink]="'/user/'+ user.id">{{ user.city }}</td>
+            <td [routerLink]="'/user/'+ user.id">{{ user.department }}</td>
             <button mat-icon-button [matMenuTriggerFor]="(generlMenu$index)" class="pin-top-right-corner" (click)="selectRow($index)">
                 <mat-icon>more_vertic</mat-icon>
             </button>

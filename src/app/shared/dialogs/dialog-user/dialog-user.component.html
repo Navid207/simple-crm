@@ -17,44 +17,19 @@
     }
   </mat-form-field>
 </div>
-}
-@if (userInfoAddress) {
-<div class="form-input">
-  <mat-form-field appearance="outline" [color]="'accent'">
-    <mat-label>Street + House No.</mat-label>
-    <input matInput placeholder="Examplesteet 1" [formControl]="formData.street" (ngModelChange)="enableAddUser()">
-    @if (formData.street.invalid) {
-    <mat-error>{{formService.getErrorMessage(formData.street,'Street')}}</mat-error>
-    }
-  </mat-form-field>
-</div>
-<div class="form-input">
-  <mat-form-field appearance="outline" [color]="'accent'">
-    <mat-label>Zip code</mat-label>
-    <input matInput placeholder="24106" [formControl]="formData.zipCode" (ngModelChange)="resteCitySelection()" (blur)="checkZipCode()">
-    @if (formData.zipCode.invalid) {
-    <mat-error>{{formService.getErrorMessage(formData.zipCode,'Zip Code')}}</mat-error>
-    }
-  </mat-form-field>
-  <mat-form-field appearance="outline" [color]="'accent'">
-    <mat-label>Select City</mat-label>
-    <mat-select [formControl]="formData.city" (ngModelChange)="enableAddUser()">
-      @for (city of selectableCitys; track $index) {
-        <mat-option value="{{ city }}">{{ city }}</mat-option>
-      }
-    </mat-select>
-  </mat-form-field>
-</div>
-}
-@if (userInfoGeneral) {
+
 <div class="form-input">
   <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Birthday</mat-label>
-    <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" [formControl]="formData.birthDate">
+    <input matInput [matDatepicker]="picker" placeholder="MM/DD/YYYY" [formControl]="formData.birthDate" (ngModelChange)="enableAddUser()">
     <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
 </div>
+
+<app-form-selector [form]="'department'" (valueOut)="onFormValueChange($event)"
+[disable]="loading" [formValue]="formData.department.value"></app-form-selector>
+
 <div class="form-input">
   <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Email</mat-label>
@@ -64,6 +39,7 @@
     }
   </mat-form-field>
 </div>
+
 <div class="form-input">
   <mat-form-field appearance="outline" [color]="'accent'">
     <mat-label>Phone</mat-label>
