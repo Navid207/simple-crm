@@ -32,7 +32,7 @@ export class DialogUserselectionComponent {
   loading = false;
   allowAddBtn = false;
   dialogTitle = '';
-  id?: string;
+  id = '';
   oldList: string[] = [];
   selectetList = [];
 
@@ -44,9 +44,8 @@ export class DialogUserselectionComponent {
     private FBServices: FirebaseService,
     public formService: FormService
   ) {
-    if (data.companyData.assigned){
-      this.oldList =[...data.companyData.assigned];
-    }
+    if (data.companyData.assigned) this.oldList = [...data.companyData.assigned];
+    if (data.companyData.id) this.id = data.companyData.id;
   }
 
   checkChange() {
@@ -61,34 +60,38 @@ export class DialogUserselectionComponent {
   async save() {
     this.data.companyData.assigned = this.userList.selectedUserIds;
     this.loading = true;
-    this.setAssignedAtUsers();
-    await this.FBServices.updateCopmanyData(this.data.companyData);    
+    await this.setAssignedAtUsers();
+    await this.FBServices.updateCopmanyData(this.data.companyData);
     this.oldList = this.userList.selectedUserIds;
     this.loading = false;
     this.closeDialog();
   }
 
 
-  setAssignedAtUsers(){
-    let toAdd:string[] = this.compareArrays(this.userList.selectedUserIds,this.oldList);
-    let users: UserData[] =  this.userList.getUsers();
+  async setAssignedAtUsers() {
+    let userListId = this.userList.selectedUserIds;
+    let users: UserData[] = this.userList.getUsers();
     for (let i = 0; i < users.length; i++) {
       let id = users[i].id;
       if (!id) return
-      if (toAdd.indexOf(id) !== -1)  users[i].assigned.push(id);
+      if (userListId.indexOf(id) === -1) {
+        let index = users[i].assigned.indexOf(this.id);
+        if (index !== -1) await this.updateUserData(users[i], index)
+        continue
+      }
+      if (users[i].assigned.indexOf(this.id) === -1) await this.updateUserData(users[i], undefined)
     }
-      
-    let toDellet = this.compareArrays(this.oldList, this.userList.selectedUserIds);
-
   }
 
 
-  compareArrays(NewArray:string[], OldArray:string[]) {
-    let uniqueInNewArray = NewArray.filter(item => !OldArray.includes(item));  
-    return uniqueInNewArray
+  async updateUserData(user:UserData, index: number | undefined){
+    if (index) user.assigned.splice(index, 1);
+    else user.assigned.push(this.id);
+    await this.FBServices.updateUserData(user);
   }
 
-  closeDialog(){
+
+  closeDialog() {
     this.dialogRef.close();
   }
 

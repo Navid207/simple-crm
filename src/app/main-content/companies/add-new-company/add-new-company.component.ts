@@ -24,6 +24,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatMenu, MatMenuModule } from '@angular/material/menu';
 import { MenueService } from '../../../shared/services/menue/menue.service';
 import { ListData } from '../../../shared/interfaces/list-data';
+import { UserData } from '../../../shared/interfaces/user-data';
 
 
 @Component({
@@ -85,7 +86,7 @@ export class AddNewCompanyComponent {
     secondCtrl: ['', Validators.required],
   });
 
-  @ViewChild('user') userElement!: any;
+  @ViewChild('user') userList!: any;
 
   constructor(
     public formService: FormService,
@@ -97,6 +98,7 @@ export class AddNewCompanyComponent {
   ) {
     this.unsubSectors = this.FBservices.subSectors();
     this.menue.setActivCategory('companies');
+    this.formData.city.disable();
   }
 
   ngOnDestroy() {
@@ -196,11 +198,33 @@ export class AddNewCompanyComponent {
   async addCompany() {
     this.fillCompanyData();
     this.startLoading();
-    await this.FBservices.addNewElement('companies', this.company)
-    debugger
+    let id = await this.FBservices.addNewElement('companies', this.company);
+    await this.setAssignedAtUsers(id);
     this.resteInputs();
     this.stopLoading();
+  }
 
+
+  async setAssignedAtUsers(companyId: string) {
+    let userListId = this.userList.selectedUserIds;
+    let users: UserData[] = this.userList.getUsers();
+    for (let i = 0; i < users.length; i++) {
+      let id = users[i].id;
+      if (!id) return
+      if (userListId.indexOf(id) === -1) {
+        let index = users[i].assigned.indexOf(companyId);
+        if (index !== -1) await this.updateUserData(users[i], index, companyId)
+        continue
+      }
+      if (users[i].assigned.indexOf(companyId) === -1) await this.updateUserData(users[i], undefined, companyId)
+    }
+  }
+
+
+  async updateUserData(user: UserData, index: number | undefined, companyId: string) {
+    if (index) user.assigned.splice(index, 1);
+    else user.assigned.push(companyId);
+    await this.FBservices.updateUserData(user);
   }
 
   fillCompanyData() {
@@ -212,7 +236,7 @@ export class AddNewCompanyComponent {
     this.company.city = this.splitFormDataCity()[1]
     this.company.country = this.splitFormDataCity()[0]
     this.company.contacts = this.contactPersons;
-    this.company.assigned = this.userElement.selectedUserIds
+    this.company.assigned = this.userList.selectedUserIds
   }
 
   splitFormDataCity() {
