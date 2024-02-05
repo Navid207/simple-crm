@@ -114,7 +114,7 @@ export class DialogCompanyComponent {
   async saveCompanyData() {
     this.setCompanyData();
     this.setLoading();
-    await this.FBServices.updateCopmanyData(this.data);
+    await this.FBServices.updateCompanyData(this.data);
     this.enableInputs();
     this.dialogRef.close();
   }

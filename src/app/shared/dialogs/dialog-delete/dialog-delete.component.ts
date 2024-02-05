@@ -46,7 +46,7 @@ export class DialogDeleteComponent {
   async deletContact() {
     let i = parseInt(this.data.collection.split('-')[1]);
     this.data.companyData.contacts.splice(i,1)
-    await this.firebaseServices.updateCopmanyData(this.data.companyData);
+    await this.firebaseServices.updateCompanyData(this.data.companyData);
   }
 
 }

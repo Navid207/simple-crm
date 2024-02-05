@@ -7,8 +7,8 @@
             <th (click)="changeUsersOrder('mail')">E-Mail
                 @if(orderBy == 'mail'){<mat-icon>expand_more</mat-icon>}
             </th>
-            <th (click)="changeUsersOrder('city')">Department
-                @if(orderBy == 'city'){<mat-icon>expand_more</mat-icon>}
+            <th (click)="changeUsersOrder('department')">Department
+                @if(orderBy == 'department'){<mat-icon>expand_more</mat-icon>}
             </th>
         </tr>
         @for (user of getUsers(); track $index) {

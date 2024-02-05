@@ -1,35 +1,59 @@
 @if ( getUser().firstName != '') {
-    <mat-card class="head-card">
-        <button mat-icon-button [matMenuTriggerFor]="generlMenu" class="pin-top-right-corner">
-            <mat-icon>more_vertic</mat-icon>
-        </button>
-        <mat-menu #generlMenu="matMenu">
-            <button (click)="openDialogUser(getUser(),'general')" mat-menu-item>Edit <mat-icon>edit</mat-icon></button>
-        </mat-menu>
+<mat-card class="head-card">
+  <button mat-icon-button [matMenuTriggerFor]="generlMenu" class="pin-top-right-corner">
+    <mat-icon>more_vertic</mat-icon>
+  </button>
+  <mat-menu #generlMenu="matMenu">
+    <button (click)="openDialogUser(getUser(),'general')" mat-menu-item>Edit <mat-icon>edit</mat-icon></button>
+  </mat-menu>
 
-        <img src="./../../../assets/img/user.svg" alt="">
-        <div class="info">
-            <mat-card-title>{{ getUser().firstName }} {{ getUser().lastName }}</mat-card-title>
-            <a href="{{'mailto:' + getUser().mail }}"><mat-icon fontIcon="mail"></mat-icon>{{ getUser().mail }}</a>
-            @if (getUser().phone) {
-            <a href="{{'tel:' + getUser().phone }}" ><mat-icon fontIcon="phone"></mat-icon>{{ getUser().phone }}</a>
-            }
-        </div>
-    </mat-card>
-    
-    <mat-card class="address-card">
-        <!-- <button mat-icon-button [matMenuTriggerFor]="addressMenu" class="pin-top-right-corner">
-            <mat-icon>more_vertic</mat-icon>
-        </button>
-        <mat-menu #addressMenu="matMenu">
-            <button (click)="openDialogUser(getUser(),'address')" mat-menu-item>Edit <mat-icon>edit</mat-icon></button>
-        </mat-menu>
+  <img src="./../../../assets/img/user.svg" alt="">
+  <div class="info">
+    <mat-card-title>{{ getUser().firstName }} {{ getUser().lastName }}
+      <mat-chip>{{ getUser().department }}</mat-chip></mat-card-title>
+    <a href="{{'mailto:' + getUser().mail }}"><mat-icon fontIcon="mail"></mat-icon>{{ getUser().mail }}</a>
+    @if (getUser().phone) {
+    <a href="{{'tel:' + getUser().phone }}"><mat-icon fontIcon="phone"></mat-icon>{{ getUser().phone }}</a>
+    }
+  </div>
+</mat-card>
 
-        <mat-card-title>Address</mat-card-title>
-        <mat-card-content>
-            {{ getUser().street }}<br>
-            {{ getUser().zipCode }} {{ getUser().city }}
-        </mat-card-content> -->
-    </mat-card>
+<mat-card class="info-card">
+  <mat-expansion-panel hideToggle [disabled]="getUser().assigned.length == 0"
+    matTooltip="{{ getTooltipTextAssignments() }}">
+    <mat-expansion-panel-header>
+      <mat-panel-description>
+        <mat-icon matBadge="{{ getUser().assigned.length }}" [matBadgeHidden]="getUser().assigned.length <= 0"
+          aria-hidden="false">store</mat-icon>
+        <mat-card-title>Assigned companies</mat-card-title>
+      </mat-panel-description>
+    </mat-expansion-panel-header>
+    @if (!getCompanyDataActiv){
+    <table class="info-table m-innerline-24 m-bottom-16">
+      <tr>
+        <th>Name</th>
+        <th>Sector</th>
+        <th>City</th>
+      </tr>
+
+
+      @for (company of assignments; track $index) {
+      <tr [routerLink]="'/company/'+ currentAssignments[$index]">
+        <td>{{ company.name }}</td>
+        <td>{{ company.sector }}</td>
+        <td>{{ company.city }}</td>
+      </tr>
+      }
+    </table>
+    } @else{
+    <mat-spinner></mat-spinner>
+    }
+
+  </mat-expansion-panel>
+
+
+  <button mat-icon-button class="pin-top-right-corner">
+    <mat-icon>dataset_linked</mat-icon>
+  </button>
+</mat-card>
 }
-

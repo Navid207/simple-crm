@@ -61,7 +61,7 @@ export class DialogUserselectionComponent {
     this.data.companyData.assigned = this.userList.selectedUserIds;
     this.loading = true;
     await this.setAssignedAtUsers();
-    await this.FBServices.updateCopmanyData(this.data.companyData);
+    await this.FBServices.updateCompanyData(this.data.companyData);
     this.oldList = this.userList.selectedUserIds;
     this.loading = false;
     this.closeDialog();
@@ -85,7 +85,7 @@ export class DialogUserselectionComponent {
 
 
   async updateUserData(user:UserData, index: number | undefined){
-    if (index) user.assigned.splice(index, 1);
+    if (index != undefined ) user.assigned.splice(index, 1);
     else user.assigned.push(this.id);
     await this.FBServices.updateUserData(user);
   }

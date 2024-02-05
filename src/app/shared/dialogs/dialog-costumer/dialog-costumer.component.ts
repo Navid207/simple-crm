@@ -108,7 +108,7 @@ export class DialogCostumerComponent {
   async saveContact() {
     this.setContactData();
     this.setLoading();
-    await this.FBServices.updateCopmanyData(this.data.companyData);
+    await this.FBServices.updateCompanyData(this.data.companyData);
     this.resetInputs();
     this.enableInputs();
     this.dialogRef.close();

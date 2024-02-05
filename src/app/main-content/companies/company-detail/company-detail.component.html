@@ -21,11 +21,11 @@
 
 <mat-card class="info-card">
   <mat-expansion-panel hideToggle [disabled]="getCompany().contacts.length == 0"
-  matTooltip="{{ getTooltipTextContacts() }}">
+    matTooltip="{{ getTooltipTextContacts() }}">
     <mat-expansion-panel-header>
       <mat-panel-description>
-        <mat-icon matBadge="{{ getCompany().contacts.length }}"
-          [matBadgeHidden]="getCompany().contacts.length <= 0">contacts</mat-icon>
+        <mat-icon matBadge="{{ getCompany().contacts.length }}" [matBadgeHidden]="getCompany().contacts.length <= 0"
+          aria-hidden="false">contacts</mat-icon>
         <mat-card-title>Contacts</mat-card-title>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -67,11 +67,11 @@
 
 <mat-card class="info-card">
   <mat-expansion-panel hideToggle [disabled]="getCompany().assigned.length == 0"
-  matTooltip="{{ getTooltipTextAssignments() }}">
+    matTooltip="{{ getTooltipTextAssignments() }}">
     <mat-expansion-panel-header>
       <mat-panel-description>
-        <mat-icon matBadge="{{ getCompany().assigned.length }}"
-          [matBadgeHidden]="getCompany().assigned.length <= 0">perm_identity</mat-icon>
+        <mat-icon matBadge="{{ getCompany().assigned.length }}" [matBadgeHidden]="getCompany().assigned.length <= 0"
+          aria-hidden="false">perm_identity</mat-icon>
         <mat-card-title>Assignments users</mat-card-title>
       </mat-panel-description>
     </mat-expansion-panel-header>
@@ -86,7 +86,7 @@
 
 
       @for (user of assignments; track $index) {
-      <tr [routerLink]="'/user/'+ currentAssignments[$index]" >
+      <tr [routerLink]="'/user/'+ currentAssignments[$index]">
         <td>{{ user.firstName }} {{ user.lastName }}</td>
         <td>{{ user.department }}</td>
         <td>{{ user.mail }}</td>

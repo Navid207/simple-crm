@@ -82,23 +82,27 @@ export class CompanyDetailComponent {
   async fillUserData() {
     this.currentAssignments = this.FBServices.company.assigned;
     this.assignments = [];
+    let deletAssimentsIndex = [];
     for (let i = 0; i < this.currentAssignments.length; i++) {
       let id = this.currentAssignments[i];
       let user = await this.FBServices.getSingleUserDoc(id);
-      if (user != null) this.assignments.push(user);
+      if (user != null && user.assigned.indexOf(this.id) ) this.assignments.push(user);
+      else deletAssimentsIndex.push(i)
     }
+    deletAssimentsIndex.forEach(index => { this.currentAssignments.splice(index,1)});
+    await this.FBServices.updateCompanyData(this.FBServices.company);
     this.getUserDataActiv = false;
   }
 
-getTooltipTextContacts():string{
-  if (this.getCompany().contacts.length == 0) return 'No contact found. Please add a contact.'
-  else return''
-}
+  getTooltipTextContacts(): string {
+    if (this.getCompany().contacts.length == 0) return 'No contact found. Please add a contact.'
+    else return ''
+  }
 
-getTooltipTextAssignments():string{
-  if (this.getCompany().assigned.length == 0) return 'No assigned person found. Please link it to a user.'
-  else return''
-}
+  getTooltipTextAssignments(): string {
+    if (this.getCompany().assigned.length == 0) return 'No assigned person found. Please link it to a user.'
+    else return ''
+  }
 
   openDialogCompany(companyData: CompanyData, settings: 'general' | 'contacts' | 'assinments'): void {
     companyData.id = this.id;
@@ -118,11 +122,11 @@ getTooltipTextAssignments():string{
     });
   }
 
-  openDialogUserselecton (Data: CompanyData): void {
+  openDialogUserselecton(Data: CompanyData): void {
     Data.id = this.id;
-    const companyData:CompanyData = JSON.parse(JSON.stringify(Data));
+    const companyData: CompanyData = JSON.parse(JSON.stringify(Data));
     const dialogRef = this.dialog.open(DialogUserselectionComponent, {
-      data: { companyData},
+      data: { companyData },
     });
     dialogRef.afterClosed().subscribe(result => {
       // if (result && result.contact) this.FBServices.company.contacts?.push(result.contact)

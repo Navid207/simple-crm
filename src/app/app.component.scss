@@ -132,3 +132,19 @@ main{
         color: #ffffff7a;
     }
 }
+
+.m-innerline-24{
+    margin-inline: -24px;
+}
+
+.m-bottom-16{
+    margin-bottom: -16px;
+}
+
+.info-card {
+    margin-top: 32px;
+
+    mat-card-title {
+        padding: 16px;
+    }
+}

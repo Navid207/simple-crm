@@ -169,7 +169,7 @@ export class FirebaseService {
     ).then();
   }
 
-  async updateCopmanyData(data: CompanyData) {
+  async updateCompanyData(data: CompanyData) {
     if (!data.id) return
     let json = this.getCleanCopmanyJson(data);
     await updateDoc(this.getSingleDocRef('companies', data.id), json).catch(
@@ -217,6 +217,13 @@ export class FirebaseService {
   async getSingleUserDoc(docId: string): Promise<UserData | null>{
     const docSnap = await getDoc(this.getSingleDocRef('users', docId));
     if (docSnap.exists()) return this.fillUserData(docSnap);
+    else return null 
+  }
+
+
+  async getSingleCompanyDoc(docId: string): Promise<CompanyData | null>{
+    const docSnap = await getDoc(this.getSingleDocRef('companies', docId));
+    if (docSnap.exists()) return this.fillCompanyData(docSnap);
     else return null 
   }
 
